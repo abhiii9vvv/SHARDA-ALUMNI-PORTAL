@@ -16,6 +16,7 @@ jobs:
     env:
       NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+      NODE_ENV: production
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -36,6 +37,12 @@ jobs:
 
       - name: Add .nojekyll file
         run: touch out/.nojekyll
+
+      - name: Copy static assets
+        run: |
+          if [ -d "public" ]; then
+            cp -r public/* out/
+          fi
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
