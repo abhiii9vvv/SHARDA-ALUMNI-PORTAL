@@ -4,6 +4,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Loader2, Mail } from "lucide-react"
 import Link from "next/link"
 
+// This is needed for static generation
+export const dynamic = 'force-static'
+
 export default function VerifyEmailPage() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
