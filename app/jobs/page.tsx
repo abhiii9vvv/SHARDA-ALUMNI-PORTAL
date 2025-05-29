@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -17,8 +18,6 @@ import { Briefcase, MapPin, Clock, DollarSign, Building, Plus, Search, Filter } 
 import { getSupabaseClient } from "@/lib/supabase/client"
 import { useToast } from "@/components/ui/use-toast"
 import Navigation from "@/components/navigation"
-import type { Database } from "@/types/database"
-import { useAuth } from "@/context/AuthContext"
 
 const jobSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters"),
@@ -34,22 +33,34 @@ const jobSchema = z.object({
 
 type JobFormData = z.infer<typeof jobSchema>
 
-type JobWithApplications = Database["public"]["Tables"]["jobs"]["Row"] & {
+interface Job {
+  id: string
+  title: string
+  company: string
+  location: string
+  job_type: string
+  experience_level: string
+  salary_range?: string
+  description: string
+  requirements: string
+  posted_by: string
+  application_deadline?: string
+  is_active: boolean
+  created_at: string
   applications?: { count: number }[]
 }
 
 export default function JobsPage() {
-  const [jobs, setJobs] = useState<JobWithApplications[]>([])
-  const [filteredJobs, setFilteredJobs] = useState<JobWithApplications[]>([])
+  const [jobs, setJobs] = useState<Job[]>([])
+  const [filteredJobs, setFilteredJobs] = useState<Job[]>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
   const [locationFilter, setLocationFilter] = useState("all")
   const [typeFilter, setTypeFilter] = useState("all")
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [mounted, setMounted] = useState(false)
 
-  const { user, profile } = useAuth()
+  const { data: session } = useSession()
   const router = useRouter()
   const { toast } = useToast()
   const supabase = getSupabaseClient()
@@ -65,24 +76,14 @@ export default function JobsPage() {
   })
 
   useEffect(() => {
-    setMounted(true)
+    fetchJobs()
   }, [])
 
   useEffect(() => {
-    if (mounted) {
-      fetchJobs()
-    }
-  }, [mounted])
-
-  useEffect(() => {
-    if (mounted) {
-      filterJobs()
-    }
-  }, [jobs, searchTerm, locationFilter, typeFilter, mounted])
+    filterJobs()
+  }, [jobs, searchTerm, locationFilter, typeFilter])
 
   const fetchJobs = async () => {
-    if (!mounted) return
-
     try {
       const { data, error } = await supabase
         .from("jobs")
@@ -91,13 +92,11 @@ export default function JobsPage() {
           applications:job_applications(count)
         `)
         .eq("is_active", true)
-        .eq("is_approved", true)
         .order("created_at", { ascending: false })
 
       if (error) throw error
 
-      const typedData = (data || []) as unknown as JobWithApplications[]
-      setJobs(typedData)
+      setJobs(data || [])
     } catch (error) {
       console.error("Error fetching jobs:", error)
       toast({
@@ -111,11 +110,11 @@ export default function JobsPage() {
   }
 
   const filterJobs = () => {
-    let filtered = [...jobs]
+    let filtered = jobs
 
     if (searchTerm) {
       filtered = filtered.filter(
-        (job: JobWithApplications) =>
+        (job) =>
           job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
           job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
           job.description.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -123,20 +122,18 @@ export default function JobsPage() {
     }
 
     if (locationFilter !== "all") {
-      filtered = filtered.filter((job: JobWithApplications) => job.location.toLowerCase().includes(locationFilter.toLowerCase()))
+      filtered = filtered.filter((job) => job.location.toLowerCase().includes(locationFilter.toLowerCase()))
     }
 
     if (typeFilter !== "all") {
-      filtered = filtered.filter((job: JobWithApplications) => job.job_type === typeFilter)
+      filtered = filtered.filter((job) => job.job_type === typeFilter)
     }
 
     setFilteredJobs(filtered)
   }
 
   const onSubmit = async (data: JobFormData) => {
-    if (!mounted) return
-
-    if (!user) {
+    if (!session) {
       toast({
         title: "Error",
         description: "You must be logged in to post jobs",
@@ -158,7 +155,7 @@ export default function JobsPage() {
         description: data.description,
         requirements: data.requirements,
         application_deadline: data.application_deadline || null,
-        posted_by: user.id,
+        posted_by: session.user.id,
         is_active: true,
       })
 
@@ -185,9 +182,7 @@ export default function JobsPage() {
   }
 
   const handleApply = async (jobId: string) => {
-    if (!mounted) return
-
-    if (!user) {
+    if (!session) {
       router.push("/auth/login?callbackUrl=/jobs")
       return
     }
@@ -195,7 +190,7 @@ export default function JobsPage() {
     try {
       const { error } = await supabase.from("job_applications").insert({
         job_id: jobId,
-        user_id: user.id,
+        user_id: session.user.id,
         application_status: "pending",
       })
 
@@ -330,7 +325,7 @@ export default function JobsPage() {
               </Select>
             </div>
 
-            {user && (
+            {session && (
               <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
                 <DialogTrigger asChild>
                   <Button className="bg-green-600 hover:bg-green-700">
@@ -488,7 +483,7 @@ export default function JobsPage() {
                     ? "No jobs match your search criteria"
                     : "There are no job postings at the moment"}
                 </p>
-                {user && (
+                {session && (
                   <Button onClick={() => setIsCreateDialogOpen(true)}>
                     <Plus className="w-4 h-4 mr-2" />
                     Post the first job
