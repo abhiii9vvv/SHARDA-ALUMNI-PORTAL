@@ -33,6 +33,17 @@ const nextConfig = {
   },
   trailingSlash: true,
   skipTrailingSlashRedirect: true,
+  experimental: {
+    appDir: true,
+  },
+  exportPathMap: async function () {
+    return {
+      '/': { page: '/' },
+      '/dashboard': { page: '/dashboard' },
+      '/auth/login': { page: '/auth/login' },
+      '/auth/register': { page: '/auth/register' },
+    }
+  }
 }
 
 export default nextConfig

@@ -29,8 +29,22 @@ export default function RegisterPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    await signUp(email, password, { firstName, lastName })
-    setIsLoading(false)
+    try {
+      const baseUrl = typeof window !== 'undefined' ? window.location.origin : ''
+      const redirectUrl = `${baseUrl}/auth/callback`
+      await signUp(email, password, { 
+        firstName, 
+        lastName,
+        options: {
+          emailRedirectTo: redirectUrl
+        }
+      })
+      router.push('/auth/verify-email')
+    } catch (error) {
+      console.error('Registration error:', error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   if (loading || user) {
