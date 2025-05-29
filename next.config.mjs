@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  basePath: '/SHARDA-ALUMNI-PORTAL',
-  assetPrefix: '/SHARDA-ALUMNI-PORTAL/',
+  basePath: process.env.NODE_ENV === 'production' ? '/SHARDA-ALUMNI-PORTAL' : '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/SHARDA-ALUMNI-PORTAL/' : '',
   experimental: {
     optimizePackageImports: ['@supabase/supabase-js', 'framer-motion'],
   },
