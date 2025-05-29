@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -15,7 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Briefcase, MapPin, Clock, DollarSign, Building, Plus, Search, Filter } from "lucide-react"
-import { getSupabaseClient } from "@/lib/supabase/client"
+import { createBrowserClient } from '@supabase/ssr'
 import { useToast } from "@/components/ui/use-toast"
 import Navigation from "@/components/navigation"
 
@@ -59,11 +58,14 @@ export default function JobsPage() {
   const [typeFilter, setTypeFilter] = useState("all")
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [session, setSession] = useState<any>(null)
 
-  const { data: session } = useSession()
   const router = useRouter()
   const { toast } = useToast()
-  const supabase = getSupabaseClient()
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
 
   const {
     register,
@@ -76,12 +78,18 @@ export default function JobsPage() {
   })
 
   useEffect(() => {
+    checkSession()
     fetchJobs()
   }, [])
 
   useEffect(() => {
     filterJobs()
   }, [jobs, searchTerm, locationFilter, typeFilter])
+
+  const checkSession = async () => {
+    const { data: { session } } = await supabase.auth.getSession()
+    setSession(session)
+  }
 
   const fetchJobs = async () => {
     try {
@@ -96,7 +104,7 @@ export default function JobsPage() {
 
       if (error) throw error
 
-      setJobs(data || [])
+      setJobs((data as Job[]) || [])
     } catch (error) {
       console.error("Error fetching jobs:", error)
       toast({
@@ -199,8 +207,8 @@ export default function JobsPage() {
           // Unique constraint violation
           toast({
             title: "Already Applied",
-            description: "You've already applied for this job",
-            variant: "destructive",
+            description: "You have already applied for this job",
+            variant: "default",
           })
         } else {
           throw error
@@ -212,8 +220,7 @@ export default function JobsPage() {
         title: "Success",
         description: "Application submitted successfully!",
       })
-
-      fetchJobs() // Refresh to update application counts
+      fetchJobs()
     } catch (error) {
       console.error("Error applying for job:", error)
       toast({
@@ -225,40 +232,49 @@ export default function JobsPage() {
   }
 
   const getJobTypeColor = (type: string) => {
-    const colors = {
-      "full-time": "bg-green-100 text-green-800",
-      "part-time": "bg-blue-100 text-blue-800",
-      contract: "bg-orange-100 text-orange-800",
-      internship: "bg-purple-100 text-purple-800",
-      freelance: "bg-pink-100 text-pink-800",
+    switch (type.toLowerCase()) {
+      case "full-time":
+        return "bg-green-100 text-green-800"
+      case "part-time":
+        return "bg-blue-100 text-blue-800"
+      case "contract":
+        return "bg-purple-100 text-purple-800"
+      case "internship":
+        return "bg-yellow-100 text-yellow-800"
+      default:
+        return "bg-gray-100 text-gray-800"
     }
-    return colors[type as keyof typeof colors] || "bg-gray-100 text-gray-800"
   }
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
+    const date = new Date(dateString)
+    return new Intl.DateTimeFormat("en-US", {
       year: "numeric",
-      month: "short",
+      month: "long",
       day: "numeric",
-    })
+    }).format(date)
   }
 
   const isDeadlineSoon = (deadline?: string) => {
     if (!deadline) return false
     const deadlineDate = new Date(deadline)
-    const today = new Date()
-    const diffTime = deadlineDate.getTime() - today.getTime()
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    const now = new Date()
+    const diffDays = Math.ceil((deadlineDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
     return diffDays <= 7 && diffDays > 0
   }
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-100">
         <Navigation />
-        <div className="pt-20 flex items-center justify-center h-96">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-        </div>
+        <main className="container mx-auto py-8">
+          <div className="flex justify-center items-center min-h-[60vh]">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
+              <p className="text-gray-600">Loading jobs...</p>
+            </div>
+          </div>
+        </main>
       </div>
     )
   }
