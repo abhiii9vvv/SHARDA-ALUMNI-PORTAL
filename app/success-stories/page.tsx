@@ -1,8 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
-import dynamic from "next/dynamic";
-
-const SuccessStoriesClient = dynamic(() => import("./SuccessStoriesClient"), { ssr: false });
+import SuccessStoriesClient from "./SuccessStoriesClient";
 
 export default function SuccessStoriesPage() {
   return <SuccessStoriesClient />;
