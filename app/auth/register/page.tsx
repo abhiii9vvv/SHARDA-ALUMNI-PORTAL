@@ -29,16 +29,10 @@ export default function RegisterPage() {
   const [showLongLoading, setShowLongLoading] = useState(false)
 
   useEffect(() => {
-    if (!loading && user) {
+    if (user) {
       router.push("/")
     }
-    if (loading) {
-      const timeout = setTimeout(() => setShowLongLoading(true), 5000)
-      return () => clearTimeout(timeout)
-    } else {
-      setShowLongLoading(false)
-    }
-  }, [user, loading, router])
+  }, [user, router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -73,26 +67,6 @@ export default function RegisterPage() {
     } finally {
       setIsLoading(false)
     }
-  }
-
-  if (loading) {
-    return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50">
-        <Loader2 className="h-8 w-8 animate-spin" />
-        <span className="mt-4 text-gray-500">Checking your session...</span>
-        {showLongLoading && (
-          <span className="mt-2 text-sm text-gray-400">Still loading? Try refreshing the page.</span>
-        )}
-      </div>
-    )
-  }
-  if (user) {
-    return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50">
-        <Loader2 className="h-8 w-8 animate-spin" />
-        <span className="mt-4 text-gray-500">Redirecting...</span>
-      </div>
-    )
   }
 
   return (
