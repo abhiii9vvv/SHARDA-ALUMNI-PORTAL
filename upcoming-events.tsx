@@ -18,7 +18,7 @@ export default function UpcomingEvents({ onEventAction }: UpcomingEventsProps) {
       location: "Sharda University Campus, Greater Noida",
       description:
         "Celebrate our global alumni community! Enjoy a weekend of networking, cultural festivities, and keynote talks from distinguished alumni.",
-      image: "/images/alumni-reunion-2025.jpg",
+      image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
       tag: "Flagship",
     },
     {
@@ -28,7 +28,7 @@ export default function UpcomingEvents({ onEventAction }: UpcomingEventsProps) {
       location: "Virtual Event",
       description:
         "Empowering women leaders across industries. Join panel discussions, workshops, and mentorship sessions led by accomplished alumnae.",
-      image: "/images/women-leadership.jpg",
+      image: "https://images.unsplash.com/photo-1515168833906-d2a3b82b3029?auto=format&fit=crop&w=800&q=80",
       tag: "Leadership",
     },
     {
@@ -38,7 +38,7 @@ export default function UpcomingEvents({ onEventAction }: UpcomingEventsProps) {
       location: "Bangalore Chapter",
       description:
         "Showcase your startup, discover new technologies, and connect with tech innovators in the alumni network.",
-      image: "/images/tech-expo.jpg",
+      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&q=80",
       tag: "Technology",
     },
     {
@@ -48,7 +48,7 @@ export default function UpcomingEvents({ onEventAction }: UpcomingEventsProps) {
       location: "Delhi NCR Chapter",
       description:
         "A special event for alumni in healthcare. Share experiences, discuss innovations, and build collaborations for a healthier future.",
-      image: "/images/healthcare-meet.jpg",
+      image: "https://images.unsplash.com/photo-1519494080410-f9aa8f0dfb2c?auto=format&fit=crop&w=800&q=80",
       tag: "Healthcare",
     },
     {
@@ -58,7 +58,7 @@ export default function UpcomingEvents({ onEventAction }: UpcomingEventsProps) {
       location: "Virtual Event",
       description:
         "Turn your ideas into reality! Intensive bootcamp for aspiring alumni entrepreneurs, featuring expert mentors and pitch sessions.",
-      image: "/images/entrepreneurship-bootcamp.jpg",
+      image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
       tag: "Entrepreneurship",
     },
     {
@@ -68,7 +68,7 @@ export default function UpcomingEvents({ onEventAction }: UpcomingEventsProps) {
       location: "Sharda University Sports Complex",
       description:
         "Relive your campus days! Join alumni teams for cricket, football, and more. Family-friendly fun and prizes included.",
-      image: "/images/sports-fest.jpg",
+      image: "https://images.unsplash.com/photo-1505843279827-4b9b06c1b6c2?auto=format&fit=crop&w=800&q=80",
       tag: "Sports",
     },
   ]

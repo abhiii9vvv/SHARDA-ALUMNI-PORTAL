@@ -4,7 +4,6 @@ import Navigation from "@/components/navigation"
 import EnhancedHero from "@/enhanced-hero"
 import StatsSection from "@/stats-section"
 import FeaturesSection from "@/features-section"
-import SuccessStories from "@/success-stories"
 import JobBoardSection from "@/job-board-section"
 import Footer from "@/footer"
 import MadeByAbhinav from "@/components/MadeByAbhinav"
@@ -17,7 +16,6 @@ export default function HomePage() {
         <EnhancedHero onNavigate={() => {}} onShowVideo={() => {}} />
         <StatsSection />
         <FeaturesSection onNavigate={() => {}} onFeatureAction={() => {}} />
-        <SuccessStories onStoryAction={() => {}} />
         <JobBoardSection onJobAction={() => {}} />
       </main>
       <Footer onNavigate={() => {}} onNewsletterSubscribe={() => {}} />

@@ -35,7 +35,7 @@ export default function Navigation({ onNavigate, isLoggedIn = false, user, onLog
       href: "#",
       hasDropdown: true,
       dropdownItems: [
-        { name: "Success Stories", href: "#stories", action: () => onNavigate("success-stories") },
+        { name: "Success Stories", href: "#success-stories", action: () => onNavigate("success-stories") },
         { name: "Career Resources", href: "#", action: () => alert("Career Resources page coming soon!") },
         { name: "Publications", href: "#", action: () => alert("Publications page coming soon!") },
       ],
