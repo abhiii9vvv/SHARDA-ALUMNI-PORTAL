@@ -12,7 +12,7 @@ import { useAuth } from "@/context/AuthContext"
 import { Loader2 } from "lucide-react"
 
 // This is needed for static generation
-export const dynamic = 'force-static'
+export const dynamic = "force-dynamic"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")

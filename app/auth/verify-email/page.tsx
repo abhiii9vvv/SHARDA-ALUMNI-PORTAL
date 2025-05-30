@@ -5,7 +5,7 @@ import { Loader2, Mail } from "lucide-react"
 import Link from "next/link"
 
 // This is needed for static generation
-export const dynamic = 'force-static'
+export const dynamic = "force-dynamic"
 
 export default function VerifyEmailPage() {
   return (

@@ -1,5 +1,7 @@
 "use client"
 
+export const dynamic = "force-dynamic";
+
 import React from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -8,7 +10,6 @@ import Link from "next/link"
 import { getSupabaseClient } from "@/lib/supabase/client"
 
 // This is needed for static generation
-export const dynamic = 'force-static'
 export const fetchCache = 'force-no-store'
 export const revalidate = 0
 
