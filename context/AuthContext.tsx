@@ -95,6 +95,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await supabase.auth.signOut();
     setUser(null);
     setProfile(null);
+    if (typeof window !== 'undefined') {
+      document.cookie = 'sb-access-token=; Max-Age=0; path=/;';
+      document.cookie = 'sb-refresh-token=; Max-Age=0; path=/;';
+    }
     router.push("/auth/login");
   }
 
