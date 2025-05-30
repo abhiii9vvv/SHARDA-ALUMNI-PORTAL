@@ -34,4 +34,4 @@ export default function VerifyEmailPage() {
       </div>
     </div>
   )
-} 
+} // trigger rebuild
