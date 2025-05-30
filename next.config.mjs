@@ -33,6 +33,11 @@ const nextConfig = {
   },
   trailingSlash: true,
   skipTrailingSlashRedirect: true,
+  experimental: {
+    appDir: true,
+    optimizeCss: true,
+    optimizePackageImports: ['@/components/ui'],
+  },
 }
 
 export default nextConfig
