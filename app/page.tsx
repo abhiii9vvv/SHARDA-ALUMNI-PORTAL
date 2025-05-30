@@ -23,3 +23,8 @@ export default function HomePage() {
     </div>
   )
 }
+
+export const metadata = {
+  title: "Home | Sharda University Alumni Portal",
+  description: "Welcome to the Sharda University Alumni Portal. Connect, network, and discover opportunities with fellow alumni.",
+};

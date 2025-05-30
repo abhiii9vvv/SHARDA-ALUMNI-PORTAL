@@ -32,18 +32,7 @@ export default function Navigation({ onNavigate, isLoggedIn = false, user, onLog
     },
     { name: "Events", href: "/events", action: () => router.push("/events") },
     { name: "Job Board", href: "/jobs", action: () => router.push("/jobs") },
-    {
-      name: "Resources",
-      href: "/resources",
-      hasDropdown: true,
-      dropdownItems: [
-        { name: "Success Stories", href: "/success-stories", action: () => router.push("/success-stories") },
-        { name: "Career Resources", href: "/career-resources", action: () => router.push("/career-resources") },
-        { name: "Publications", href: "/publications", action: () => router.push("/publications") },
-      ],
-    },
     { name: "About", href: "/about", action: () => router.push("/about") },
-    { name: "Contact", href: "/contact", action: () => router.push("/contact") },
     { name: "Upcoming Events", href: "/upcoming-events", action: () => router.push("/upcoming-events") },
   ]
 

@@ -155,7 +155,7 @@ export default function SuccessStories({ onStoryAction }: SuccessStoriesProps) {
       <div className="relative max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">Alumni Success Stories</h2>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">Alumni Success Stories</h1>
           <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Discover how our graduates are making their mark across industries worldwide. From tech innovators to
             healthcare leaders, our alumni continue to inspire and achieve excellence in their chosen fields.
@@ -199,146 +199,33 @@ export default function SuccessStories({ onStoryAction }: SuccessStoriesProps) {
               key={story.id}
               className="bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
             >
-              <CardContent className="p-8">
-                <div className="flex flex-col items-center text-center">
-                  {/* Alumni Photo */}
-                  <div className="relative mb-6">
-                    <div className="w-24 h-24 rounded-full overflow-hidden ring-4 ring-blue-100">
-                      <Image
-                        src={story.photo || `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(story.name)}`}
-                        alt={story.name}
-                        width={96}
-                        height={96}
-                        className="w-full h-full object-cover"
-                        onError={(e) => { e.currentTarget.src = `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(story.name)}` }}
-                      />
-                    </div>
-                    <div className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs px-2 py-1 rounded-full">
-                      {story.graduationYear}
-                    </div>
+              <CardContent className="p-4">
+                <div className="flex items-center space-x-4">
+                  <div className="flex-shrink-0 h-10 w-10">
+                    <Image
+                      src={story.photo}
+                      alt={`Photo of ${story.name}, ${story.title}`}
+                      width={40}
+                      height={40}
+                      className="rounded-full"
+                    />
                   </div>
-
-                  {/* Alumni Info */}
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{story.name}</h3>
-                  <p className="text-blue-600 font-semibold mb-4 text-sm">{story.title}</p>
-
-                  {/* Quote Icon */}
-                  <Quote className="w-8 h-8 text-blue-200 mb-4" />
-
-                  {/* Summary */}
-                  <p className="text-gray-600 text-sm leading-relaxed mb-6 line-clamp-4">{story.summary}</p>
-
-                  {/* Action Button */}
-                  <Button
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full font-medium"
-                    onClick={() => onStoryAction("read-more", story)}
-                  >
-                    Read More
-                  </Button>
+                  <div>
+                    <h3 className="text-sm leading-5 font-medium text-gray-900">{story.name}</h3>
+                    <div className="text-sm leading-5 text-gray-500">{story.title}</div>
+                  </div>
                 </div>
+                <div className="mt-2 text-base leading-6 text-gray-700">{story.summary}</div>
               </CardContent>
             </Card>
           ))}
-        </div>
-
-        {/* Additional Stories - Horizontal Scroll on Mobile */}
-        <div className="lg:hidden">
-          <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">More Success Stories</h3>
-          <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
-            {filteredStories.slice(3).map((story) => (
-              <Card
-                key={story.id}
-                className="bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300 flex-shrink-0 w-80"
-              >
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-4">
-                    <div className="relative flex-shrink-0">
-                      <div className="w-16 h-16 rounded-full overflow-hidden ring-2 ring-blue-100">
-                        <Image
-                          src={story.photo || `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(story.name)}`}
-                          alt={story.name}
-                          width={64}
-                          height={64}
-                          className="w-full h-full object-cover"
-                          onError={(e) => { e.currentTarget.src = `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(story.name)}` }}
-                        />
-                      </div>
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="font-bold text-gray-900 mb-1">{story.name}</h4>
-                      <p className="text-blue-600 text-sm font-medium mb-3">{story.title}</p>
-                      <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">{story.summary}</p>
-                      <Button
-                        size="sm"
-                        className="bg-blue-600 hover:bg-blue-700 text-white"
-                        onClick={() => onStoryAction("read-more", story)}
-                      >
-                        Read More
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* Additional Stories Grid for Desktop */}
-        <div className="hidden lg:grid grid-cols-2 gap-8">
-          {filteredStories.slice(3).map((story) => (
-            <Card
-              key={story.id}
-              className="bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300"
-            >
-              <CardContent className="p-6">
-                <div className="flex items-start gap-6">
-                  <div className="relative flex-shrink-0">
-                    <div className="w-20 h-20 rounded-full overflow-hidden ring-4 ring-blue-100">
-                      <Image
-                        src={story.photo || `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(story.name)}`}
-                        alt={story.name}
-                        width={80}
-                        height={80}
-                        className="w-full h-full object-cover"
-                        onError={(e) => { e.currentTarget.src = `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(story.name)}` }}
-                      />
-                    </div>
-                    <div className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs px-2 py-1 rounded-full">
-                      {story.graduationYear}
-                    </div>
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="text-xl font-bold text-gray-900 mb-2">{story.name}</h4>
-                    <p className="text-blue-600 font-semibold mb-4">{story.title}</p>
-                    <p className="text-gray-600 leading-relaxed mb-6 line-clamp-3">{story.summary}</p>
-                    <Button
-                      className="bg-blue-600 hover:bg-blue-700 text-white"
-                      onClick={() => onStoryAction("read-more", story)}
-                    >
-                      Read More
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {/* Call to Action */}
-        <div className="text-center mt-16">
-          <h3 className="text-2xl font-bold text-gray-900 mb-4">Share Your Success Story</h3>
-          <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-            Inspire fellow alumni and current students by sharing your journey. Your story could be the motivation
-            someone needs to pursue their dreams.
-          </p>
-          <Button
-            className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-3 rounded-full font-semibold"
-            onClick={() => onStoryAction("submit")}
-          >
-            Submit Your Story
-          </Button>
         </div>
       </div>
     </section>
   )
 }
+
+export const metadata = {
+  title: "Alumni Success Stories | Sharda University Alumni Portal",
+  description: "Read inspiring success stories from Sharda University alumni who are making an impact across industries worldwide.",
+}; 

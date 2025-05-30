@@ -78,7 +78,7 @@ export default function UpcomingEvents({ onEventAction }: UpcomingEventsProps) {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">Upcoming Events</h2>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">Upcoming Events</h1>
           <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Stay connected with your alumni community through our exciting events. From reunions to professional
             networking sessions, there's always something happening in the Sharda University alumni network.
@@ -96,7 +96,7 @@ export default function UpcomingEvents({ onEventAction }: UpcomingEventsProps) {
                 <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
                   <Image
                     src={event.image || "/placeholder.svg"}
-                    alt={event.title}
+                    alt={`Event: ${event.title} at ${event.location}`}
                     fill
                     className="object-cover transition-transform duration-300 hover:scale-105"
                   />
@@ -159,3 +159,8 @@ export default function UpcomingEvents({ onEventAction }: UpcomingEventsProps) {
     </section>
   )
 }
+
+export const metadata = {
+  title: "Upcoming Events | Sharda University Alumni Portal",
+  description: "Stay updated with upcoming alumni events, reunions, and networking opportunities at Sharda University.",
+}; 

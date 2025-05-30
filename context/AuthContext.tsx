@@ -113,7 +113,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       document.cookie = 'sb-access-token=; Max-Age=0; path=/;'
       document.cookie = 'sb-refresh-token=; Max-Age=0; path=/;'
     }
-    router.push("/auth/login")
   }
 
   const resetPassword = async (email: string) => {

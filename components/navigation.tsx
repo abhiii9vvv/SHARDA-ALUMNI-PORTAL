@@ -29,7 +29,7 @@ export default function Navigation() {
   ]
 
   return (
-    <nav className="bg-white shadow-lg sticky top-0 z-50">
+    <nav className="bg-white shadow-lg sticky top-0 z-50" aria-label="Main Navigation">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
@@ -38,9 +38,9 @@ export default function Navigation() {
                 <Image
                   src="/images/sharda-logo.png"
                   alt="Sharda University Logo"
-                  width={48}
-                  height={48}
-                  className="w-12 h-12 object-contain mr-3"
+                  width={64}
+                  height={64}
+                  className="w-16 h-16 object-contain mr-4"
                 />
                 <div className="flex flex-col ml-1 justify-center">
                   <span className="text-xs font-bold text-gray-900 leading-tight">Sharda University</span>
@@ -56,7 +56,9 @@ export default function Navigation() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors"
+                className="text-gray-800 hover:text-blue-700 px-3 py-2 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                tabIndex={0}
+                aria-label={item.name}
               >
                 {item.name}
               </Link>
@@ -123,6 +125,7 @@ export default function Navigation() {
           <div className="md:hidden flex items-center">
             <Button
               variant="ghost"
+              aria-label={isOpen ? "Close mobile menu" : "Open mobile menu"}
               onClick={() => setIsOpen(!isOpen)}
               className="inline-flex items-center justify-center p-2"
             >
@@ -140,7 +143,9 @@ export default function Navigation() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-gray-700 hover:text-blue-600 block px-3 py-2 text-base font-medium"
+                className="text-gray-800 hover:text-blue-700 block px-3 py-2 text-base font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                tabIndex={0}
+                aria-label={item.name}
                 onClick={() => setIsOpen(false)}
               >
                 {item.name}
@@ -148,14 +153,18 @@ export default function Navigation() {
             ))}
             <Link
               href="/auth/login"
-              className="text-gray-700 hover:text-blue-600 block px-3 py-2 text-base font-medium"
+              className="text-gray-800 hover:text-blue-700 block px-3 py-2 text-base font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+              tabIndex={0}
+              aria-label="Sign In"
               onClick={() => setIsOpen(false)}
             >
               Sign In
             </Link>
             <Link
               href="/auth/register"
-              className="text-gray-700 hover:text-blue-600 block px-3 py-2 text-base font-medium"
+              className="text-gray-800 hover:text-blue-700 block px-3 py-2 text-base font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+              tabIndex={0}
+              aria-label="Sign Up"
               onClick={() => setIsOpen(false)}
             >
               Sign Up

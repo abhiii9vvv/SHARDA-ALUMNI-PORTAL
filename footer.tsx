@@ -37,10 +37,6 @@ export default function Footer({ onNavigate, onNewsletterSubscribe }: FooterProp
   const resources = [
     { name: "Career Advice", action: () => router.push("/career-advice") },
     { name: "Professional Development", action: () => router.push("/professional-development") },
-    { name: "Alumni Benefits", action: () => router.push("/alumni-benefits") },
-    { name: "Scholarship Programs", action: () => router.push("/scholarships") },
-    { name: "University News", action: () => router.push("/news") },
-    { name: "Contact Support", action: () => router.push("/contact") },
   ]
 
   const socialLinks = [
@@ -77,7 +73,7 @@ export default function Footer({ onNavigate, onNewsletterSubscribe }: FooterProp
   ]
 
   return (
-    <footer className="bg-gray-900 text-white">
+    <footer className="bg-gray-900 text-white" aria-label="Footer">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         {/* Main Footer Content */}
         <div className="py-16">
@@ -113,7 +109,9 @@ export default function Footer({ onNavigate, onNewsletterSubscribe }: FooterProp
                   <li key={index}>
                     <button
                       onClick={link.action}
-                      className="text-gray-300 hover:text-blue-400 transition-colors text-sm leading-relaxed text-left"
+                      className="text-gray-100 hover:text-blue-300 transition-colors text-sm leading-relaxed text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                      tabIndex={0}
+                      aria-label={link.name}
                     >
                       {link.name}
                     </button>
@@ -130,7 +128,9 @@ export default function Footer({ onNavigate, onNewsletterSubscribe }: FooterProp
                   <li key={index}>
                     <button
                       onClick={link.action}
-                      className="text-gray-300 hover:text-blue-400 transition-colors text-sm leading-relaxed text-left"
+                      className="text-gray-100 hover:text-blue-300 transition-colors text-sm leading-relaxed text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                      tabIndex={0}
+                      aria-label={link.name}
                     >
                       {link.name}
                     </button>
@@ -149,7 +149,9 @@ export default function Footer({ onNavigate, onNewsletterSubscribe }: FooterProp
                   <Phone className="w-4 h-4 text-blue-400 flex-shrink-0" />
                   <button
                     onClick={() => window.open("tel:+911204174000")}
-                    className="text-gray-300 hover:text-blue-400 transition-colors text-sm"
+                    className="text-gray-100 hover:text-blue-300 transition-colors text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                    tabIndex={0}
+                    aria-label="Call Sharda University"
                   >
                     +91 120 417 4000
                   </button>
@@ -158,20 +160,22 @@ export default function Footer({ onNavigate, onNewsletterSubscribe }: FooterProp
                   <Mail className="w-4 h-4 text-blue-400 flex-shrink-0" />
                   <button
                     onClick={() => window.open("mailto:alumni@sharda.ac.in")}
-                    className="text-gray-300 hover:text-blue-400 transition-colors text-sm"
+                    className="text-gray-100 hover:text-blue-300 transition-colors text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                    tabIndex={0}
+                    aria-label="Email Sharda University"
                   >
                     alumni@sharda.ac.in
                   </button>
                 </div>
                 <div className="flex items-start gap-3">
                   <MapPin className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
-                  <p className="text-gray-300 text-sm leading-relaxed">Knowledge Park III, Greater Noida, UP 201310</p>
+                  <p className="text-gray-100 text-sm leading-relaxed">Knowledge Park III, Greater Noida, UP 201310</p>
                 </div>
               </div>
 
               {/* Social Media */}
               <div>
-                <p className="text-sm text-gray-300 mb-4">Follow us on social media</p>
+                <p className="text-sm text-gray-100 mb-4">Follow us on social media</p>
                 <div className="flex gap-3">
                   {socialLinks.map((social, index) => {
                     const IconComponent = social.icon
@@ -179,8 +183,9 @@ export default function Footer({ onNavigate, onNewsletterSubscribe }: FooterProp
                       <button
                         key={index}
                         onClick={social.action}
-                        className={`w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center text-gray-400 ${social.color} transition-colors`}
+                        className={`w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center text-gray-200 ${social.color} transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400`}
                         aria-label={social.name}
+                        tabIndex={0}
                       >
                         <IconComponent className="w-5 h-5" />
                       </button>
@@ -193,7 +198,7 @@ export default function Footer({ onNavigate, onNewsletterSubscribe }: FooterProp
             {/* Newsletter Signup */}
             <div>
               <h4 className="text-lg font-semibold text-white mb-6">Stay Updated</h4>
-              <p className="text-gray-300 text-sm mb-4 leading-relaxed">
+              <p className="text-gray-100 text-sm mb-4 leading-relaxed">
                 Subscribe to our newsletter for the latest alumni news, events, and opportunities.
               </p>
               <form onSubmit={handleNewsletterSubmit} className="space-y-3">
