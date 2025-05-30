@@ -205,11 +205,12 @@ export default function SuccessStories({ onStoryAction }: SuccessStoriesProps) {
                   <div className="relative mb-6">
                     <div className="w-24 h-24 rounded-full overflow-hidden ring-4 ring-blue-100">
                       <Image
-                        src={story.photo || "/placeholder.svg"}
+                        src={story.photo || `https://avatars.dicebear.com/api/bottts/${encodeURIComponent(story.name)}.svg`}
                         alt={story.name}
                         width={96}
                         height={96}
                         className="w-full h-full object-cover"
+                        onError={(e) => { e.currentTarget.src = `https://avatars.dicebear.com/api/bottts/${encodeURIComponent(story.name)}.svg` }}
                       />
                     </div>
                     <div className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs px-2 py-1 rounded-full">
@@ -254,11 +255,12 @@ export default function SuccessStories({ onStoryAction }: SuccessStoriesProps) {
                     <div className="relative flex-shrink-0">
                       <div className="w-16 h-16 rounded-full overflow-hidden ring-2 ring-blue-100">
                         <Image
-                          src={story.photo || "/placeholder.svg"}
+                          src={story.photo || `https://avatars.dicebear.com/api/bottts/${encodeURIComponent(story.name)}.svg`}
                           alt={story.name}
                           width={64}
                           height={64}
                           className="w-full h-full object-cover"
+                          onError={(e) => { e.currentTarget.src = `https://avatars.dicebear.com/api/bottts/${encodeURIComponent(story.name)}.svg` }}
                         />
                       </div>
                     </div>
@@ -293,11 +295,12 @@ export default function SuccessStories({ onStoryAction }: SuccessStoriesProps) {
                   <div className="relative flex-shrink-0">
                     <div className="w-20 h-20 rounded-full overflow-hidden ring-4 ring-blue-100">
                       <Image
-                        src={story.photo || "/placeholder.svg"}
+                        src={story.photo || `https://avatars.dicebear.com/api/bottts/${encodeURIComponent(story.name)}.svg`}
                         alt={story.name}
                         width={80}
                         height={80}
                         className="w-full h-full object-cover"
+                        onError={(e) => { e.currentTarget.src = `https://avatars.dicebear.com/api/bottts/${encodeURIComponent(story.name)}.svg` }}
                       />
                     </div>
                     <div className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs px-2 py-1 rounded-full">
