@@ -10,6 +10,8 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { useAuth } from "@/context/AuthContext"
 import { Loader2 } from "lucide-react"
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { Linkedin } from 'lucide-react'
 
 // This is needed for static generation
 export const dynamic = "force-dynamic"
@@ -21,6 +23,7 @@ export default function LoginPage() {
   const { signIn, user, loading } = useAuth()
   const router = useRouter()
   const [error, setError] = useState<string | null>(null)
+  const supabase = createClientComponentClient()
 
   useEffect(() => {
     if (!loading && user) {
@@ -91,6 +94,17 @@ export default function LoginPage() {
             <Link href="/auth/register" className="text-blue-600 hover:underline">
               Sign up
             </Link>
+          </div>
+          <div className="flex flex-col gap-4 mt-8">
+            <Button
+              type="button"
+              className="bg-blue-700 hover:bg-blue-800 text-white flex items-center justify-center gap-2"
+              onClick={async () => {
+                await supabase.auth.signInWithOAuth({ provider: 'linkedin' })
+              }}
+            >
+              <Linkedin className="w-5 h-5" /> Sign in with LinkedIn
+            </Button>
           </div>
         </CardContent>
       </Card>

@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2, Camera } from "lucide-react";
 import { useRef, useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export default function ProfilePage() {
   const { user, profile, loading } = useAuth();
@@ -12,6 +14,10 @@ export default function ProfilePage() {
   const [photoUrl, setPhotoUrl] = useState(profile?.image || "");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const supabase = createClientComponentClient();
+  const [jobTitle, setJobTitle] = useState(profile?.job_title || "");
+  const [gradYear, setGradYear] = useState(profile?.graduation_year || "");
+  const [contactInfo, setContactInfo] = useState(profile?.contact_info || "");
+  const [saving, setSaving] = useState(false);
 
   const handlePhotoClick = () => {
     fileInputRef.current?.click();
@@ -35,6 +41,19 @@ export default function ProfilePage() {
     // Update user profile in DB
     await supabase.from('users').update({ image: publicUrl }).eq('id', user.id);
     setUploading(false);
+  };
+
+  const handleSave = async () => {
+    if (!user) return;
+    setSaving(true);
+    await supabase.from('users').update({
+      job_title: jobTitle,
+      graduation_year: gradYear,
+      contact_info: contactInfo,
+      image: photoUrl,
+    }).eq('id', user.id);
+    setSaving(false);
+    alert('Profile updated!');
   };
 
   if (loading) {
@@ -95,7 +114,19 @@ export default function ProfilePage() {
             <div>
               <span className="font-semibold">Email:</span> {user.email}
             </div>
-            {/* Add more profile fields as needed */}
+            <div className="w-full">
+              <label className="block font-semibold mb-1">Job Title</label>
+              <Input value={jobTitle} onChange={e => setJobTitle(e.target.value)} placeholder="e.g. Software Engineer" />
+            </div>
+            <div className="w-full">
+              <label className="block font-semibold mb-1">Graduation Year</label>
+              <Input value={gradYear} onChange={e => setGradYear(e.target.value)} placeholder="e.g. 2022" type="number" min="1900" max="2100" />
+            </div>
+            <div className="w-full">
+              <label className="block font-semibold mb-1">Contact Info</label>
+              <Input value={contactInfo} onChange={e => setContactInfo(e.target.value)} placeholder="LinkedIn, phone, etc." />
+            </div>
+            <Button className="mt-4 w-full" onClick={handleSave} disabled={saving || !user}>{saving ? "Saving..." : "Save Changes"}</Button>
           </div>
         </CardContent>
       </Card>

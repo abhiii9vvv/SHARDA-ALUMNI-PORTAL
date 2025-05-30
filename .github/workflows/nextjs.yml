@@ -5,7 +5,8 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-# Cancel any in-progress job or run
+
+    # Cancel any in-progress job or run
 concurrency:
   group: 'pages'
   cancel-in-progress: true

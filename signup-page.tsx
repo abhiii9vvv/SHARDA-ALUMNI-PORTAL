@@ -70,7 +70,7 @@ export default function SignupPage({ onNavigate, onLogin }: SignupPageProps) {
             <div className="flex items-center justify-center mb-4">
               <div className="w-12 h-12 mr-3">
                 <Image
-                  src="/images/sharda-logo.png"
+                  src="https://i.ibb.co/ccQJyJ9x/sharda-logo.png"
                   alt="Sharda University Logo"
                   width={48}
                   height={48}
