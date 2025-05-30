@@ -36,11 +36,11 @@ export default function Navigation() {
             <Link href="/" className="flex-shrink-0 flex items-center gap-2 h-16">
               <div className="flex items-center h-full">
                 <Image
-                  src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=80&q=80"
+                  src="/images/sharda-logo.png"
                   alt="Sharda University Logo"
-                  width={40}
-                  height={40}
-                  className="h-10 w-auto max-h-10 object-contain"
+                  width={48}
+                  height={48}
+                  className="w-12 h-12 object-contain mr-3"
                 />
                 <div className="flex flex-col ml-1 justify-center">
                   <span className="text-xs font-bold text-gray-900 leading-tight">Sharda University</span>
