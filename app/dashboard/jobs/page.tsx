@@ -9,6 +9,8 @@ import { getSupabaseClient } from "@/lib/supabase/client"
 
 // This is needed for static generation
 export const dynamic = 'force-static'
+export const fetchCache = 'force-no-store'
+export const revalidate = 0
 
 interface Job {
   id: string
@@ -21,24 +23,30 @@ export default function JobsPage() {
   const [loading, setLoading] = React.useState(true)
 
   React.useEffect(() => {
-    const supabase = getSupabaseClient()
-    
-    const fetchJobs = async () => {
-      try {
-        const { data, error } = await supabase.from("jobs").select("id, title, company")
-        if (error) {
-          console.error("Error fetching jobs:", error)
-        } else {
-          setJobs(data as Job[])
+    // Only fetch jobs on the client side
+    if (typeof window !== 'undefined') {
+      const supabase = getSupabaseClient()
+      
+      const fetchJobs = async () => {
+        try {
+          const { data, error } = await supabase.from("jobs").select("id, title, company")
+          if (error) {
+            console.error("Error fetching jobs:", error)
+          } else {
+            setJobs(data as Job[])
+          }
+        } catch (error) {
+          console.error("Error:", error)
+        } finally {
+          setLoading(false)
         }
-      } catch (error) {
-        console.error("Error:", error)
-      } finally {
-        setLoading(false)
       }
-    }
 
-    fetchJobs()
+      fetchJobs()
+    } else {
+      // If we're rendering on the server (during static generation), just set loading to false
+      setLoading(false)
+    }
   }, [])
 
   if (loading) {
@@ -62,7 +70,7 @@ export default function JobsPage() {
               <Briefcase className="h-12 w-12 text-gray-400 mx-auto mb-4" />
               <p className="text-gray-500 mb-4">No jobs found</p>
               <Button asChild>
-                <Link href="/jobs" prefetch={false}>View All Jobs</Link>
+                <Link href="/jobs" scroll={false}>View All Jobs</Link>
               </Button>
             </div>
           ) : (
@@ -74,7 +82,7 @@ export default function JobsPage() {
                     <p className="text-sm text-gray-500">{job.company}</p>
                     <div className="mt-4">
                       <Button asChild variant="outline" size="sm">
-                        <Link href={`/jobs/${job.id}`} prefetch={false}>View Details</Link>
+                        <Link href={`/jobs/${job.id}`} scroll={false}>View Details</Link>
                       </Button>
                     </div>
                   </CardContent>
