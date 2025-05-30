@@ -15,6 +15,7 @@ import LoginPage from "../login-page"
 import SignupPage from "../signup-page"
 import VideoModal from "../video-modal"
 import EventModal from "../event-modal"
+import MadeByAbhinav from "@/components/MadeByAbhinav"
 
 export default function HomePage() {
   const [currentPage, setCurrentPage] = useState("home")
@@ -113,29 +114,29 @@ export default function HomePage() {
     }
   }
 
-  if (currentPage === "login") {
-    return <LoginPage onNavigate={handleNavigate} onLogin={handleLogin} />
-  }
-
-  if (currentPage === "signup") {
-    return <SignupPage onNavigate={handleNavigate} onLogin={handleLogin} />
-  }
-
   return (
     <div className="min-h-screen bg-white">
       <Navigation onNavigate={handleNavigate} isLoggedIn={isLoggedIn} user={user} onLogout={handleLogout} />
       <main>
-        <EnhancedHero onNavigate={handleNavigate} onShowVideo={handleShowVideo} />
-        <StatsSection />
-        <FeaturesSection onNavigate={handleNavigate} onFeatureAction={handleFeatureAction} />
-        <UpcomingEvents onEventAction={handleEventAction} />
-        <SuccessStories onStoryAction={handleStoryAction} />
-        <JobBoardSection onJobAction={handleJobAction} />
-        <PartnersSection onPartnerAction={handlePartnerAction} />
-        <ContactSection onContactAction={handleContactAction} />
+        {currentPage === "login" ? (
+          <LoginPage onNavigate={handleNavigate} onLogin={handleLogin} />
+        ) : currentPage === "signup" ? (
+          <SignupPage onNavigate={handleNavigate} onLogin={handleLogin} />
+        ) : (
+          <>
+            <EnhancedHero onNavigate={handleNavigate} onShowVideo={handleShowVideo} />
+            <StatsSection />
+            <FeaturesSection onNavigate={handleNavigate} onFeatureAction={handleFeatureAction} />
+            <UpcomingEvents onEventAction={handleEventAction} />
+            <SuccessStories onStoryAction={handleStoryAction} />
+            <JobBoardSection onJobAction={handleJobAction} />
+            <PartnersSection onPartnerAction={handlePartnerAction} />
+            <ContactSection onContactAction={handleContactAction} />
+          </>
+        )}
       </main>
       <Footer onNavigate={handleNavigate} onNewsletterSubscribe={handleNewsletterSubscribe} />
-
+      <MadeByAbhinav />
       {/* Modals */}
       {showVideoModal && <VideoModal onClose={() => setShowVideoModal(false)} />}
       {showEventModal && selectedEvent && <EventModal event={selectedEvent} onClose={() => setShowEventModal(false)} />}

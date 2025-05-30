@@ -14,9 +14,10 @@ import { useState } from "react"
 
 interface SignupPageProps {
   onNavigate: (page: string) => void
+  onLogin?: (userData: any) => void
 }
 
-export default function SignupPage({ onNavigate }: SignupPageProps) {
+export default function SignupPage({ onNavigate, onLogin }: SignupPageProps) {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [formData, setFormData] = useState({
