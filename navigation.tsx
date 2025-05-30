@@ -59,12 +59,12 @@ export default function Navigation({ onNavigate, isLoggedIn = false, user, onLog
           <div className="flex items-center cursor-pointer" onClick={() => onNavigate("home")}>
             <div className="w-12 h-12 mr-3">
               <Image
-                src="/images/sharda-logo.png"
-                alt="Sharda University Logo"
-                width={48}
-                height={48}
-                className="w-full h-full object-contain"
-              />
+  src="https://i.ibb.co/ccQJyJ9x/sharda-logo.png"
+  alt="Sharda University Logo"
+  width={48}
+  height={48}
+  className="w-full h-full object-contain"
+/>
             </div>
             <div className="hidden sm:block">
               <h1 className="text-xl font-bold text-white">Sharda University</h1>
