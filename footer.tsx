@@ -9,19 +9,16 @@ import { Input } from "@/components/ui/input"
 import { Facebook, Twitter, Linkedin, Instagram, Youtube, Mail, Phone, MapPin } from "lucide-react"
 import { useState } from "react"
 
-interface FooterProps {
-  onNavigate: (page: string) => void
-  onNewsletterSubscribe: (email: string) => void
-}
-
-export default function Footer({ onNavigate, onNewsletterSubscribe }: FooterProps) {
+export default function Footer() {
   const [email, setEmail] = useState("")
+  const [subscribed, setSubscribed] = useState(false)
   const currentYear = new Date().getFullYear()
   const router = useRouter()
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    onNewsletterSubscribe(email)
+    // You can add your newsletter subscription logic here
+    setSubscribed(true)
     setEmail("")
   }
 
@@ -198,23 +195,25 @@ export default function Footer({ onNavigate, onNewsletterSubscribe }: FooterProp
             {/* Newsletter Signup */}
             <div>
               <h4 className="text-lg font-semibold text-white mb-6">Stay Updated</h4>
-              <p className="text-gray-100 text-sm mb-4 leading-relaxed">
-                Subscribe to our newsletter for the latest alumni news, events, and opportunities.
-              </p>
-              <form onSubmit={handleNewsletterSubmit} className="space-y-3">
+              <form onSubmit={handleNewsletterSubmit} className="flex flex-col gap-4">
                 <Input
                   type="email"
                   placeholder="Enter your email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500"
+                  onChange={e => setEmail(e.target.value)}
                   required
+                  className="bg-gray-800 border border-gray-700 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400"
+                  aria-label="Email address"
                 />
-                <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm">
-                  Subscribe
+                <Button
+                  type="submit"
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold"
+                  disabled={subscribed}
+                >
+                  {subscribed ? "Subscribed!" : "Subscribe"}
                 </Button>
               </form>
-              <p className="text-gray-400 text-xs mt-3">We respect your privacy. Unsubscribe at any time.</p>
+              <p className="text-gray-400 text-xs mt-2">Get the latest news, events, and opportunities delivered to your inbox.</p>
             </div>
           </div>
         </div>

@@ -3,55 +3,52 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Users, Briefcase, Calendar, Award, Globe, Heart } from "lucide-react"
+import { useRouter } from "next/navigation"
 
-interface FeaturesSectionProps {
-  onNavigate: (page: string) => void
-  onFeatureAction: (feature: string) => void
-}
-
-export default function FeaturesSection({ onNavigate, onFeatureAction }: FeaturesSectionProps) {
+export default function FeaturesSection() {
+  const router = useRouter();
   const features = [
     {
       icon: Users,
       title: "Alumni Directory",
       description: "Connect with fellow graduates across the globe. Search by industry, location, or graduation year.",
       color: "bg-blue-100 text-blue-600",
-      action: () => onFeatureAction("Alumni Directory"),
+      action: () => router.push("/alumni/directory"),
     },
     {
       icon: Briefcase,
       title: "Career Opportunities",
       description: "Access exclusive job postings and career advancement opportunities from our partner companies.",
       color: "bg-green-100 text-green-600",
-      action: () => onFeatureAction("Career Opportunities"),
+      action: () => router.push("/jobs"),
     },
     {
       icon: Calendar,
       title: "Networking Events",
       description: "Attend reunions, professional meetups, and industry-specific networking events worldwide.",
       color: "bg-purple-100 text-purple-600",
-      action: () => onFeatureAction("Networking Events"),
+      action: () => router.push("/events"),
     },
     {
       icon: Award,
       title: "Mentorship Program",
       description: "Give back by mentoring current students or get guidance from experienced professionals.",
       color: "bg-orange-100 text-orange-600",
-      action: () => onFeatureAction("Mentorship Program"),
+      action: () => router.push("/mentorship"),
     },
     {
       icon: Globe,
       title: "Global Community",
       description: "Join regional chapters and connect with alumni in your city or industry sector.",
       color: "bg-teal-100 text-teal-600",
-      action: () => onFeatureAction("Global Community"),
+      action: () => router.push("/alumni/chapters"),
     },
     {
       icon: Heart,
       title: "Give Back",
       description: "Support current students through scholarships, internships, and volunteer opportunities.",
       color: "bg-pink-100 text-pink-600",
-      action: () => onFeatureAction("Give Back"),
+      action: () => router.push("/volunteer"),
     },
   ]
 
@@ -68,7 +65,6 @@ export default function FeaturesSection({ onNavigate, onFeatureAction }: Feature
             comprehensive alumni platform.
           </p>
         </div>
-
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {features.map((feature, index) => {
@@ -101,12 +97,11 @@ export default function FeaturesSection({ onNavigate, onFeatureAction }: Feature
             )
           })}
         </div>
-
         {/* CTA */}
         <div className="text-center">
           <Button
             className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg font-semibold"
-            onClick={() => onNavigate("signup")}
+            onClick={() => router.push("/auth/register")}
           >
             Join Our Network
           </Button>

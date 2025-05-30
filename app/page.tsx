@@ -11,12 +11,12 @@ export default function HomePage() {
     <div className="min-h-screen bg-white">
       <Navigation />
       <main>
-        <EnhancedHero onNavigate={() => {}} onShowVideo={() => {}} />
+        <EnhancedHero />
         <StatsSection />
-        <FeaturesSection onNavigate={() => {}} onFeatureAction={() => {}} />
-        <JobBoardSection onJobAction={() => {}} />
+        <FeaturesSection />
+        <JobBoardSection />
       </main>
-      <Footer onNavigate={() => {}} onNewsletterSubscribe={() => {}} />
+      <Footer />
       <MadeByAbhinav />
     </div>
   )
