@@ -1,5 +1,3 @@
-"use client"
-
 import Navigation from "@/components/navigation"
 import EnhancedHero from "@/enhanced-hero"
 import StatsSection from "@/stats-section"
