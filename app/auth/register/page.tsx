@@ -35,8 +35,17 @@ export default function RegisterPage() {
     setIsLoading(true)
     setError(null)
     try {
-      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || (typeof window !== 'undefined' ? window.location.origin : '')
-      const redirectUrl = `${baseUrl}/auth/callback`
+      // Validate NEXT_PUBLIC_SITE_URL
+      let baseUrl = '';
+      if (process.env.NEXT_PUBLIC_SITE_URL && process.env.NEXT_PUBLIC_SITE_URL.startsWith('http')) {
+        baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
+      } else if (typeof window !== 'undefined') {
+        baseUrl = window.location.origin;
+      }
+      if (!baseUrl) {
+        throw new Error('Base URL for email redirect is not set. Please set NEXT_PUBLIC_SITE_URL in your environment variables.');
+      }
+      const redirectUrl = `${baseUrl}/auth/callback`;
       const { error } = await signUp(email, password, { 
         firstName, 
         lastName,
