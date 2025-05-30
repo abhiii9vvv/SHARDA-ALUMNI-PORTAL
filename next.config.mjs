@@ -36,6 +36,8 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['@/components/ui'],
   },
+  distDir: '.next',
+  generateBuildId: async () => 'build',
 }
 
 export default nextConfig
