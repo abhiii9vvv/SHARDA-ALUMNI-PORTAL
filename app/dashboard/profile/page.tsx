@@ -90,7 +90,7 @@ export default function ProfilePage() {
   if (!user) {
     // Show a minimal fallback while redirecting
     if (typeof window !== 'undefined') {
-      window.location.href = '/auth/login';
+      window.location.href = `/auth/login?callbackUrl=${encodeURIComponent(window.location.pathname)}`;
     }
     return <div className="flex min-h-screen items-center justify-center">Redirecting...</div>;
   }

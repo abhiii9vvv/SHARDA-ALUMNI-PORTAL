@@ -18,7 +18,7 @@ export default function DashboardLayout({
 
   useEffect(() => {
     if (user === null) {
-      router.push("/auth/login")
+      router.push(`/auth/login?callbackUrl=${encodeURIComponent(window.location.pathname)}`);
     }
   }, [user, router])
 
