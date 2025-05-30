@@ -88,11 +88,11 @@ export default function ProfilePage() {
   }
 
   if (!user) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <p>Please log in to view your profile.</p>
-      </div>
-    );
+    // Show a minimal fallback while redirecting
+    if (typeof window !== 'undefined') {
+      window.location.href = '/auth/login';
+    }
+    return <div className="flex min-h-screen items-center justify-center">Redirecting...</div>;
   }
 
   return (

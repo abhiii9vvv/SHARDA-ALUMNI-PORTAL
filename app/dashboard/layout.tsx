@@ -17,13 +17,13 @@ export default function DashboardLayout({
   const router = useRouter()
 
   useEffect(() => {
-    if (!user) {
+    if (user === null) {
       router.push("/auth/login")
     }
   }, [user, router])
 
-  if (!user) {
-    return null
+  if (user === null) {
+    return <div className="flex h-screen items-center justify-center">Redirecting...</div>
   }
 
   return (
