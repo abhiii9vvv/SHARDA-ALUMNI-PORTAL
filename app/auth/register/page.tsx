@@ -35,7 +35,7 @@ export default function RegisterPage() {
     setIsLoading(true)
     setError(null)
     try {
-      const baseUrl = typeof window !== 'undefined' ? window.location.origin : ''
+      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || (typeof window !== 'undefined' ? window.location.origin : '')
       const redirectUrl = `${baseUrl}/auth/callback`
       const { error } = await signUp(email, password, { 
         firstName, 
