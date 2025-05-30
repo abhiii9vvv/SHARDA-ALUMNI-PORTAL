@@ -9,10 +9,6 @@ import { Briefcase } from "lucide-react"
 import Link from "next/link"
 import { getSupabaseClient } from "@/lib/supabase/client"
 
-// This is needed for static generation
-export const fetchCache = 'force-no-store'
-export const revalidate = 0
-
 interface Job {
   id: string
   title: string
