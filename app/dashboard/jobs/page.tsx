@@ -1,11 +1,11 @@
 "use client"
 
 import React from "react"
-import { createClient } from "@supabase/supabase-js"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Briefcase } from "lucide-react"
 import Link from "next/link"
+import { getSupabaseClient } from "@/lib/supabase/client"
 
 // This is needed for static generation
 export const dynamic = 'force-static'
@@ -21,18 +21,15 @@ export default function JobsPage() {
   const [loading, setLoading] = React.useState(true)
 
   React.useEffect(() => {
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    )
-
+    const supabase = getSupabaseClient()
+    
     const fetchJobs = async () => {
       try {
-        const { data, error } = await supabase.from("jobs").select("*")
+        const { data, error } = await supabase.from("jobs").select("id, title, company")
         if (error) {
           console.error("Error fetching jobs:", error)
         } else {
-          setJobs(data || [])
+          setJobs(data as Job[])
         }
       } catch (error) {
         console.error("Error:", error)
@@ -65,7 +62,7 @@ export default function JobsPage() {
               <Briefcase className="h-12 w-12 text-gray-400 mx-auto mb-4" />
               <p className="text-gray-500 mb-4">No jobs found</p>
               <Button asChild>
-                <Link href="/jobs">View All Jobs</Link>
+                <Link href="/jobs" prefetch={false}>View All Jobs</Link>
               </Button>
             </div>
           ) : (
@@ -77,7 +74,7 @@ export default function JobsPage() {
                     <p className="text-sm text-gray-500">{job.company}</p>
                     <div className="mt-4">
                       <Button asChild variant="outline" size="sm">
-                        <Link href={`/jobs/${job.id}`}>View Details</Link>
+                        <Link href={`/jobs/${job.id}`} prefetch={false}>View Details</Link>
                       </Button>
                     </div>
                   </CardContent>
