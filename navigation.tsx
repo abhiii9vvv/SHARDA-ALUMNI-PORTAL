@@ -5,6 +5,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Menu, Search, ChevronDown, User, LogOut } from "lucide-react"
 import { useState } from "react"
 import Image from "next/image"
+import { useRouter } from "next/router"
 
 interface NavigationProps {
   onNavigate: (page: string) => void
@@ -15,34 +16,35 @@ interface NavigationProps {
 
 export default function Navigation({ onNavigate, isLoggedIn = false, user, onLogout }: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false)
+  const router = useRouter()
 
   const navItems = [
-    { name: "Home", href: "#", action: () => onNavigate("home") },
+    { name: "Home", href: "/", action: () => router.push("/") },
     {
       name: "Alumni",
-      href: "#",
+      href: "/alumni",
       hasDropdown: true,
       dropdownItems: [
-        { name: "Alumni Directory", href: "#", action: () => onNavigate("alumni-directory") },
-        { name: "Notable Alumni", href: "#", action: () => onNavigate("success-stories") },
-        { name: "Alumni Chapters", href: "#", action: () => alert("Alumni Chapters page coming soon!") },
+        { name: "Alumni Directory", href: "/alumni/directory", action: () => router.push("/alumni/directory") },
+        { name: "Notable Alumni", href: "/success-stories", action: () => router.push("/success-stories") },
+        { name: "Alumni Chapters", href: "/alumni/chapters", action: () => router.push("/alumni/chapters") },
       ],
     },
-    { name: "Events", href: "#events", action: () => onNavigate("events") },
-    { name: "Job Board", href: "#jobs", action: () => onNavigate("job-board") },
+    { name: "Events", href: "/events", action: () => router.push("/events") },
+    { name: "Job Board", href: "/jobs", action: () => router.push("/jobs") },
     {
       name: "Resources",
-      href: "#",
+      href: "/resources",
       hasDropdown: true,
       dropdownItems: [
-        { name: "Success Stories", href: "#success-stories", action: () => onNavigate("success-stories") },
-        { name: "Career Resources", href: "#", action: () => alert("Career Resources page coming soon!") },
-        { name: "Publications", href: "#", action: () => alert("Publications page coming soon!") },
+        { name: "Success Stories", href: "/success-stories", action: () => router.push("/success-stories") },
+        { name: "Career Resources", href: "/career-resources", action: () => router.push("/career-resources") },
+        { name: "Publications", href: "/publications", action: () => router.push("/publications") },
       ],
     },
-    { name: "About", href: "#about", action: () => alert("About page coming soon!") },
-    { name: "Contact", href: "#contact", action: () => onNavigate("contact") },
-    { name: "Upcoming Events", href: "#upcoming-events", action: () => onNavigate("upcoming-events") },
+    { name: "About", href: "/about", action: () => router.push("/about") },
+    { name: "Contact", href: "/contact", action: () => router.push("/contact") },
+    { name: "Upcoming Events", href: "/upcoming-events", action: () => router.push("/upcoming-events") },
   ]
 
   const handleSearch = () => {

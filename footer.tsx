@@ -2,6 +2,7 @@
 
 import type React from "react"
 import Image from "next/image"
+import { useRouter } from "next/router"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -16,6 +17,7 @@ interface FooterProps {
 export default function Footer({ onNavigate, onNewsletterSubscribe }: FooterProps) {
   const [email, setEmail] = useState("")
   const currentYear = new Date().getFullYear()
+  const router = useRouter()
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -24,21 +26,21 @@ export default function Footer({ onNavigate, onNewsletterSubscribe }: FooterProp
   }
 
   const quickLinks = [
-    { name: "Alumni Directory", action: () => onNavigate("alumni-directory") },
-    { name: "Events Calendar", action: () => onNavigate("events") },
-    { name: "Job Board", action: () => onNavigate("job-board") },
-    { name: "Success Stories", action: () => onNavigate("success-stories") },
-    { name: "Mentorship Program", action: () => alert("Mentorship Program coming soon!") },
-    { name: "Volunteer Opportunities", action: () => alert("Volunteer Opportunities coming soon!") },
+    { name: "Alumni Directory", action: () => router.push("/alumni/directory") },
+    { name: "Events Calendar", action: () => router.push("/events") },
+    { name: "Job Board", action: () => router.push("/jobs") },
+    { name: "Success Stories", action: () => router.push("/success-stories") },
+    { name: "Mentorship Program", action: () => router.push("/mentorship") },
+    { name: "Volunteer Opportunities", action: () => router.push("/volunteer") },
   ]
 
   const resources = [
-    { name: "Career Advice", action: () => alert("Career Advice resources coming soon!") },
-    { name: "Professional Development", action: () => alert("Professional Development coming soon!") },
-    { name: "Alumni Benefits", action: () => alert("Alumni Benefits information coming soon!") },
-    { name: "Scholarship Programs", action: () => alert("Scholarship Programs coming soon!") },
-    { name: "University News", action: () => alert("University News coming soon!") },
-    { name: "Contact Support", action: () => onNavigate("contact") },
+    { name: "Career Advice", action: () => router.push("/career-advice") },
+    { name: "Professional Development", action: () => router.push("/professional-development") },
+    { name: "Alumni Benefits", action: () => router.push("/alumni-benefits") },
+    { name: "Scholarship Programs", action: () => router.push("/scholarships") },
+    { name: "University News", action: () => router.push("/news") },
+    { name: "Contact Support", action: () => router.push("/contact") },
   ]
 
   const socialLinks = [
