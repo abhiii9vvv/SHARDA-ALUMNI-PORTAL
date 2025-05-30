@@ -45,6 +45,13 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/dashboard", request.url))
   }
 
+  const isAuthPage = request.nextUrl.pathname.startsWith('/auth/login') || request.nextUrl.pathname.startsWith('/auth/register');
+  const token = request.cookies.get('sb-access-token')?.value;
+
+  if (isAuthPage && token) {
+    return NextResponse.redirect(new URL('/', request.url));
+  }
+
   return response
 }
 

@@ -22,29 +22,35 @@ export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false)
   const { signUp, user, loading } = useAuth()
   const router = useRouter()
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!loading && user) {
-      router.push("/dashboard")
+      router.push("/")
     }
   }, [user, loading, router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
+    setError(null)
     try {
       const baseUrl = typeof window !== 'undefined' ? window.location.origin : ''
       const redirectUrl = `${baseUrl}/auth/callback`
-      await signUp(email, password, { 
+      const { error } = await signUp(email, password, { 
         firstName, 
         lastName,
         options: {
           emailRedirectTo: redirectUrl
         }
       })
+      if (error) {
+        setError(error.message || "Registration failed")
+        return
+      }
       router.push('/auth/verify-email')
-    } catch (error) {
-      console.error('Registration error:', error)
+    } catch (error: any) {
+      setError(error.message || "Registration error")
     } finally {
       setIsLoading(false)
     }
@@ -115,6 +121,7 @@ export default function RegisterPage() {
                 disabled={isLoading}
               />
             </div>
+            {error && <div className="text-red-600 text-sm mb-2">{error}</div>}
             <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700" disabled={isLoading}>
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Sign Up

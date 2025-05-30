@@ -20,17 +20,22 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
   const { signIn, user, loading } = useAuth()
   const router = useRouter()
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!loading && user) {
-      router.push("/dashboard")
+      router.push("/")
     }
   }, [user, loading, router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    await signIn(email, password)
+    setError(null)
+    const { error } = await signIn(email, password)
+    if (error) {
+      setError(error.message || "Login failed")
+    }
     setIsLoading(false)
   }
 
@@ -75,6 +80,7 @@ export default function LoginPage() {
                 disabled={isLoading}
               />
             </div>
+            {error && <div className="text-red-600 text-sm mb-2">{error}</div>}
             <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700" disabled={isLoading}>
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Sign In
