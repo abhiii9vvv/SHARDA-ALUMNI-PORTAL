@@ -52,6 +52,18 @@ export default function ProfilePage() {
       contact_info: contactInfo,
       image: photoUrl,
     }).eq('id', user.id);
+    // Fetch the latest profile data after update
+    const { data: updatedProfile } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', user.id)
+      .single();
+    if (updatedProfile) {
+      setPhotoUrl(updatedProfile.image || "");
+      setJobTitle(updatedProfile.job_title || "");
+      setGradYear(updatedProfile.graduation_year || "");
+      setContactInfo(updatedProfile.contact_info || "");
+    }
     setSaving(false);
     alert('Profile updated!');
   };
