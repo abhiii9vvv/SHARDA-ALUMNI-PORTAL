@@ -98,7 +98,7 @@ export default function LoginPage() {
               type="button"
               className="bg-blue-700 hover:bg-blue-800 text-white flex items-center justify-center gap-2"
               onClick={async () => {
-                await supabase.auth.signInWithOAuth({ provider: 'linkedin' })
+                await supabase.auth.signInWithOAuth({ provider: 'linkedin_oidc' })
               }}
             >
               <Linkedin className="w-5 h-5" /> Sign in with LinkedIn
