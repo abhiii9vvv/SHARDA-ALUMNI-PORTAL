@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button"
 import { Home, Users, Briefcase, Calendar, Settings, LogOut } from "lucide-react"
 import Link from "next/link"
+import { useAuth } from "@/context/AuthContext"
 
 export default function DashboardSidebar() {
+  const { signOut } = useAuth();
   const menuItems = [
     { icon: Home, label: "Overview", href: "/dashboard" },
     { icon: Users, label: "Alumni Network", href: "/dashboard/network" },
@@ -35,7 +37,7 @@ export default function DashboardSidebar() {
         </ul>
       </nav>
 
-      <Button variant="ghost" className="w-full justify-start text-white hover:bg-gray-800 mt-auto">
+      <Button variant="ghost" className="w-full justify-start text-white hover:bg-gray-800 mt-auto" onClick={signOut}>
         <LogOut className="mr-2 h-4 w-4" />
         Logout
       </Button>
