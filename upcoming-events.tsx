@@ -13,30 +13,63 @@ export default function UpcomingEvents({ onEventAction }: UpcomingEventsProps) {
   const events = [
     {
       id: 1,
-      title: "Annual Alumni Reunion 2024",
-      date: "March 15, 2024",
-      location: "Sharda University Campus",
+      title: "Global Alumni Reunion 2025",
+      date: "March 22, 2025",
+      location: "Sharda University Campus, Greater Noida",
       description:
-        "Join us for our biggest alumni gathering of the year. Reconnect with classmates, enjoy cultural performances, and celebrate our shared memories.",
-      image: "/images/alumni-reunion.jpg",
+        "Celebrate our global alumni community! Enjoy a weekend of networking, cultural festivities, and keynote talks from distinguished alumni.",
+      image: "/images/alumni-reunion-2025.jpg",
+      tag: "Flagship",
     },
     {
       id: 2,
-      title: "Tech Innovation Summit",
-      date: "April 8, 2024",
+      title: "Women in Leadership Summit",
+      date: "April 12, 2025",
       location: "Virtual Event",
       description:
-        "Explore the latest trends in technology with industry leaders and fellow alumni. Network with professionals from top tech companies.",
-      image: "/images/tech-summit.jpg",
+        "Empowering women leaders across industries. Join panel discussions, workshops, and mentorship sessions led by accomplished alumnae.",
+      image: "/images/women-leadership.jpg",
+      tag: "Leadership",
     },
     {
       id: 3,
-      title: "Career Mentorship Workshop",
-      date: "April 22, 2024",
+      title: "Tech & Innovation Expo",
+      date: "May 3, 2025",
+      location: "Bangalore Chapter",
+      description:
+        "Showcase your startup, discover new technologies, and connect with tech innovators in the alumni network.",
+      image: "/images/tech-expo.jpg",
+      tag: "Technology",
+    },
+    {
+      id: 4,
+      title: "Healthcare Heroes Meet",
+      date: "June 14, 2025",
       location: "Delhi NCR Chapter",
       description:
-        "Connect with senior alumni for career guidance and mentorship opportunities. Perfect for recent graduates and career changers.",
-      image: "/images/career-workshop.jpg",
+        "A special event for alumni in healthcare. Share experiences, discuss innovations, and build collaborations for a healthier future.",
+      image: "/images/healthcare-meet.jpg",
+      tag: "Healthcare",
+    },
+    {
+      id: 5,
+      title: "Entrepreneurship Bootcamp",
+      date: "July 19, 2025",
+      location: "Virtual Event",
+      description:
+        "Turn your ideas into reality! Intensive bootcamp for aspiring alumni entrepreneurs, featuring expert mentors and pitch sessions.",
+      image: "/images/entrepreneurship-bootcamp.jpg",
+      tag: "Entrepreneurship",
+    },
+    {
+      id: 6,
+      title: "Annual Sports Fest",
+      date: "August 23, 2025",
+      location: "Sharda University Sports Complex",
+      description:
+        "Relive your campus days! Join alumni teams for cricket, football, and more. Family-friendly fun and prizes included.",
+      image: "/images/sports-fest.jpg",
+      tag: "Sports",
     },
   ]
 
@@ -67,6 +100,11 @@ export default function UpcomingEvents({ onEventAction }: UpcomingEventsProps) {
                     fill
                     className="object-cover transition-transform duration-300 hover:scale-105"
                   />
+                  {event.tag && (
+                    <span className="absolute top-3 left-3 bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md z-10">
+                      {event.tag}
+                    </span>
+                  )}
                 </div>
               </CardHeader>
 

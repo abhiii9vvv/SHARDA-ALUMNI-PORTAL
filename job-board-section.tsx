@@ -82,32 +82,28 @@ export default function JobBoardSection({ onJobAction }: JobBoardSectionProps) {
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Heart className="w-8 h-8 text-green-600" />
               </div>
-              <CardTitle className="text-2xl font-bold text-gray-900">About</CardTitle>
+              <CardTitle className="text-2xl font-bold text-gray-900">About Us</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
               <p className="text-gray-600 mb-6 leading-relaxed">
-                The Sharda University Alumni Association is dedicated to fostering lifelong connections, supporting
-                career growth, and creating opportunities for our global community of graduates.
+                Sharda University Alumni Connect is dedicated to building a lifelong, global community. Our mission is to empower graduates to achieve their highest potential, foster meaningful connections, and inspire positive change in the world. We believe in the power of shared experiences, mentorship, and collaboration to drive personal and professional growth.
               </p>
-
-              <div className="space-y-4 mb-6">
+              <div className="flex flex-col gap-4 mb-6">
                 <div className="flex items-start gap-3 text-left">
                   <Target className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
                   <div>
                     <h4 className="font-semibold text-gray-900 text-sm">Our Mission</h4>
-                    <p className="text-xs text-gray-600">Empowering alumni through networking and career advancement</p>
+                    <p className="text-xs text-gray-600">To unite, support, and elevate alumni through opportunities, mentorship, and lifelong learning.</p>
                   </div>
                 </div>
-
                 <div className="flex items-start gap-3 text-left">
                   <Users className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
                   <div>
-                    <h4 className="font-semibold text-gray-900 text-sm">Global Network</h4>
-                    <p className="text-xs text-gray-600">50,000+ alumni across 80+ countries worldwide</p>
+                    <h4 className="font-semibold text-gray-900 text-sm">Our Vision</h4>
+                    <p className="text-xs text-gray-600">A vibrant, engaged alumni network making a global impact across industries and communities.</p>
                   </div>
                 </div>
               </div>
-
               <Button
                 variant="outline"
                 className="w-full border-green-600 text-green-600 hover:bg-green-50"

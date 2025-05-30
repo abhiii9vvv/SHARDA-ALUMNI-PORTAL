@@ -97,8 +97,7 @@ export default function Footer({ onNavigate, onNewsletterSubscribe }: FooterProp
               </div>
             </div>
             <p className="text-gray-300 max-w-md mx-auto lg:mx-0 leading-relaxed">
-              Connecting graduates worldwide, fostering lifelong relationships, and empowering career growth through our
-              vibrant alumni community.
+              Our mission is to empower Sharda University alumni to connect, grow, and make a difference. We foster lifelong relationships, support career advancement, and inspire global impact through a vibrant, engaged community.
             </p>
           </div>
 
