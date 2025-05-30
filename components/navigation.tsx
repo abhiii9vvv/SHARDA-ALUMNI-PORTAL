@@ -21,6 +21,7 @@ export default function Navigation() {
 
   const navigation = [
     { name: "Home", href: "/" },
+    { name: "Events", href: "/events" },
     { name: "Alumni", href: "/alumni" },
     { name: "About", href: "/about" },
   ]
@@ -30,17 +31,19 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link href="/" className="flex-shrink-0 flex items-center gap-2">
-              <Image
-                src="/images/sharda-logo.png"
-                alt="Sharda University"
-                width={88}
-                height={88}
-                className="h-24 w-auto"
-              />
-              <div className="flex flex-col ml-1">
-                <span className="text-xs font-bold text-gray-900 leading-tight">Sharda University</span>
-                <span className="text-[10px] text-blue-400 font-medium leading-tight">Alumni Portal</span>
+            <Link href="/" className="flex-shrink-0 flex items-center gap-2 h-16">
+              <div className="flex items-center h-full">
+                <Image
+                  src="/images/sharda-logo.png"
+                  alt="Sharda University"
+                  width={40}
+                  height={40}
+                  className="h-10 w-auto max-h-10 object-contain"
+                />
+                <div className="flex flex-col ml-1 justify-center">
+                  <span className="text-xs font-bold text-gray-900 leading-tight">Sharda University</span>
+                  <span className="text-[10px] text-blue-400 font-medium leading-tight">Alumni Portal</span>
+                </div>
               </div>
             </Link>
           </div>
