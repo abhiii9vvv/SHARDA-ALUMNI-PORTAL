@@ -42,6 +42,7 @@ export default function Navigation({ onNavigate, isLoggedIn = false, user, onLog
     },
     { name: "About", href: "#about", action: () => alert("About page coming soon!") },
     { name: "Contact", href: "#contact", action: () => onNavigate("contact") },
+    { name: "Upcoming Events", href: "#upcoming-events", action: () => onNavigate("upcoming-events") },
   ]
 
   const handleSearch = () => {
@@ -57,15 +58,13 @@ export default function Navigation({ onNavigate, isLoggedIn = false, user, onLog
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <div className="flex items-center cursor-pointer" onClick={() => onNavigate("home")}>
-            <div className="w-12 h-12 mr-3">
-              <Image
-                src="/images/sharda-logo.png"
-                alt="Sharda University Logo"
-                width={48}
-                height={48}
-                className="w-full h-full object-contain"
-              />
-            </div>
+            <Image
+              src="/images/sharda-logo.png"
+              alt="Sharda University Logo"
+              width={48}
+              height={48}
+              className="w-12 h-12 object-contain mr-3"
+            />
             <div className="hidden sm:block">
               <h1 className="text-xl font-bold text-white">Sharda University</h1>
               <p className="text-xs text-blue-300">Alumni Connect</p>

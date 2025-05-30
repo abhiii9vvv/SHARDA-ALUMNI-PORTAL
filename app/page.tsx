@@ -4,7 +4,6 @@ import Navigation from "@/components/navigation"
 import EnhancedHero from "@/enhanced-hero"
 import StatsSection from "@/stats-section"
 import FeaturesSection from "@/features-section"
-import UpcomingEvents from "@/upcoming-events"
 import SuccessStories from "@/success-stories"
 import JobBoardSection from "@/job-board-section"
 import Footer from "@/footer"
@@ -18,7 +17,6 @@ export default function HomePage() {
         <EnhancedHero onNavigate={() => {}} onShowVideo={() => {}} />
         <StatsSection />
         <FeaturesSection onNavigate={() => {}} onFeatureAction={() => {}} />
-        <UpcomingEvents onEventAction={() => {}} />
         <SuccessStories onStoryAction={() => {}} />
         <JobBoardSection onJobAction={() => {}} />
       </main>
