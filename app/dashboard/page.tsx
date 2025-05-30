@@ -33,7 +33,7 @@ interface RecentActivity {
 }
 
 export default function DashboardPage() {
-  const { user, profile, loading, signOut } = useAuth()
+  const { user, profile, loading, error, retry } = useAuth()
   const [stats, setStats] = useState<DashboardStats>({
     upcomingEvents: 0,
     myEvents: 0,
@@ -167,6 +167,15 @@ export default function DashboardPage() {
     const diffInDays = Math.floor(diffInHours / 24)
     if (diffInDays < 7) return `${diffInDays}d ago`
     return date.toLocaleDateString()
+  }
+
+  if (error) {
+    return (
+      <div className="flex min-h-screen items-center justify-center flex-col">
+        <p className="text-red-600 text-lg mb-4">{error}</p>
+        <Button onClick={retry} className="bg-blue-600 text-white">Retry</Button>
+      </div>
+    );
   }
 
   if (loading) {

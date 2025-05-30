@@ -14,6 +14,8 @@ type AuthContextType = {
   signUp: (email: string, password: string, userData: any) => Promise<{ error: any; data: any }>
   signOut: () => Promise<void>
   resetPassword: (email: string) => Promise<{ error: any }>
+  error: string | null
+  retry: () => void
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -22,26 +24,39 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [profile, setProfile] = useState<any | null>(null)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const router = useRouter()
   const supabase = createClientComponentClient()
 
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout
     const getSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      setUser(session?.user || null)
-      if (session?.user) {
-        const { data: profileData } = await supabase
-          .from("users")
-          .select("*")
-          .eq("id", session.user.id)
-          .single()
-        setProfile(profileData)
+      try {
+        const { data: { session } } = await supabase.auth.getSession()
+        setUser(session?.user || null)
+        if (session?.user) {
+          const { data: profileData, error: profileError } = await supabase
+            .from("users")
+            .select("*")
+            .eq("id", session.user.id)
+            .single()
+          if (profileError) throw profileError
+          setProfile(profileData)
+        }
+        setLoading(false)
+        setError(null)
+      } catch (err: any) {
+        setError("Failed to load user session. Please try again.")
+        setLoading(false)
       }
-      setLoading(false)
     }
-
     getSession()
-
+    timeoutId = setTimeout(() => {
+      if (loading) {
+        setError("Loading timed out. Please check your connection and try again.")
+        setLoading(false)
+      }
+    }, 10000)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       setUser(session?.user || null)
       if (session?.user) {
@@ -54,7 +69,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } else {
         setProfile(null)
       }
-
       if (event === "SIGNED_IN") {
         router.push("/dashboard")
       } else if (event === "SIGNED_OUT") {
@@ -62,8 +76,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
       router.refresh()
     })
-
     return () => {
+      clearTimeout(timeoutId)
       subscription.unsubscribe()
     }
   }, [router, supabase])
@@ -92,28 +106,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const signOut = async () => {
-    await supabase.auth.signOut();
-    setUser(null);
-    setProfile(null);
+    await supabase.auth.signOut()
+    setUser(null)
+    setProfile(null)
     if (typeof window !== 'undefined') {
-      document.cookie = 'sb-access-token=; Max-Age=0; path=/;';
-      document.cookie = 'sb-refresh-token=; Max-Age=0; path=/;';
+      document.cookie = 'sb-access-token=; Max-Age=0; path=/;'
+      document.cookie = 'sb-refresh-token=; Max-Age=0; path=/;'
     }
-    router.push("/auth/login");
+    router.push("/auth/login")
   }
 
   const resetPassword = async (email: string) => {
-    let redirectTo: string | undefined = undefined;
+    let redirectTo: string | undefined = undefined
     if (process.env.NEXT_PUBLIC_SITE_URL) {
-      redirectTo = `${process.env.NEXT_PUBLIC_SITE_URL}/auth/reset-password`;
+      redirectTo = `${process.env.NEXT_PUBLIC_SITE_URL}/auth/reset-password`
     } else if (typeof window !== 'undefined') {
-      redirectTo = `${window.location.origin}/auth/reset-password`;
+      redirectTo = `${window.location.origin}/auth/reset-password`
     }
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo,
-    });
-    return { error };
-  };
+    })
+    return { error }
+  }
+
+  const retry = () => {
+    setLoading(true)
+    setError(null)
+    setUser(null)
+    setProfile(null)
+  }
 
   const value = {
     user,
@@ -123,6 +144,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     signUp,
     signOut,
     resetPassword,
+    error,
+    retry,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

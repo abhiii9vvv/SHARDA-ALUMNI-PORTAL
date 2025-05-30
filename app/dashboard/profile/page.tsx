@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 export default function ProfilePage() {
-  const { user, profile, loading } = useAuth();
+  const { user, profile, loading, error, retry } = useAuth();
   const [uploading, setUploading] = useState(false);
   const [photoUrl, setPhotoUrl] = useState(profile?.image || "");
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -40,6 +40,8 @@ export default function ProfilePage() {
     setPhotoUrl(publicUrl);
     // Update user profile in DB
     await supabase.from('users').update({ image: publicUrl }).eq('id', user.id);
+    // Update global context/profile after upload
+    window.location.reload();
     setUploading(false);
   };
 
@@ -72,6 +74,15 @@ export default function ProfilePage() {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex min-h-screen items-center justify-center flex-col">
+        <p className="text-red-600 text-lg mb-4">{error}</p>
+        <Button onClick={retry} className="bg-blue-600 text-white">Retry</Button>
       </div>
     );
   }
