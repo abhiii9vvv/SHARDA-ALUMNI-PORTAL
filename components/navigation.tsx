@@ -32,14 +32,18 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link href="/" className="flex-shrink-0 flex items-center">
+            <Link href="/" className="flex-shrink-0 flex items-center gap-2">
               <Image
                 src="/images/sharda-logo.png"
                 alt="Sharda University"
-                width={64}
-                height={64}
-                className="h-16 w-auto"
+                width={88}
+                height={88}
+                className="h-24 w-auto"
               />
+              <div className="flex flex-col ml-1">
+                <span className="text-xs font-bold text-gray-900 leading-tight">Sharda University</span>
+                <span className="text-[10px] text-blue-400 font-medium leading-tight">Alumni Portal</span>
+              </div>
             </Link>
           </div>
 
@@ -139,43 +143,20 @@ export default function Navigation() {
                 {item.name}
               </Link>
             ))}
-            {user ? (
-              <>
-                <Link
-                  href="/dashboard"
-                  className="text-gray-700 hover:text-blue-600 block px-3 py-2 text-base font-medium"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Dashboard
-                </Link>
-                <button
-                  onClick={() => {
-                    signOut()
-                    setIsOpen(false)
-                  }}
-                  className="text-gray-700 hover:text-blue-600 block px-3 py-2 text-base font-medium w-full text-left"
-                >
-                  Sign Out
-                </button>
-              </>
-            ) : (
-              <>
-                <Link
-                  href="/auth/login"
-                  className="text-gray-700 hover:text-blue-600 block px-3 py-2 text-base font-medium"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Sign In
-                </Link>
-                <Link
-                  href="/auth/register"
-                  className="text-gray-700 hover:text-blue-600 block px-3 py-2 text-base font-medium"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Sign Up
-                </Link>
-              </>
-            )}
+            <Link
+              href="/auth/login"
+              className="text-gray-700 hover:text-blue-600 block px-3 py-2 text-base font-medium"
+              onClick={() => setIsOpen(false)}
+            >
+              Sign In
+            </Link>
+            <Link
+              href="/auth/register"
+              className="text-gray-700 hover:text-blue-600 block px-3 py-2 text-base font-medium"
+              onClick={() => setIsOpen(false)}
+            >
+              Sign Up
+            </Link>
           </div>
         </div>
       )}
