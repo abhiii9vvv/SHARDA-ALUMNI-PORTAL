@@ -70,7 +70,7 @@ export default function Navigation() {
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                     <Avatar className="h-8 w-8">
-                      <AvatarImage src={profile?.profile_image_url || `https://avatars.dicebear.com/api/bottts/${user?.email || user?.id}.svg`} alt={profile?.first_name} />
+                      <AvatarImage src={profile?.profile_image_url || `https://api.dicebear.com/7.x/bottts/svg?seed=${user?.email || user?.id}`} alt={profile?.first_name} />
                       <AvatarFallback>
                         {profile?.first_name?.[0]}
                         {profile?.last_name?.[0]}

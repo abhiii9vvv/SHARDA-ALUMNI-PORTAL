@@ -47,7 +47,7 @@ const AvatarFallback = React.forwardRef<
 ))
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName
 
-// Usage: <AvatarImage src={userImage || `https://avatars.dicebear.com/api/bottts/${userEmail}.svg`} />
+// Usage: <AvatarImage src={userImage || `https://api.dicebear.com/7.x/bottts/svg?seed=${userEmail}`} />
 // If no user image, a DiceBear avatar will be used as fallback.
 
 export { Avatar, AvatarImage, AvatarFallback }
