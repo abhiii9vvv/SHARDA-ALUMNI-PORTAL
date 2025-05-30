@@ -2,7 +2,7 @@
 
 import type React from "react"
 import Image from "next/image"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
