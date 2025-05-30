@@ -37,8 +37,8 @@ export default function Navigation() {
               <Link href="/" className="flex-shrink-0 flex items-center gap-2 h-16">
                 <div className="flex items-center h-full">
                   <Image
-                    src="https://i.ibb.co/ccQJyJ9x/sharda-logo.png"
-                    alt="Sharda University"
+                    src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=80&q=80"
+                    alt="Sharda University Logo"
                     width={40}
                     height={40}
                     className="h-10 w-auto max-h-10 object-contain"
