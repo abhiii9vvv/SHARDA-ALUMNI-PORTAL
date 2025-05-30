@@ -70,29 +70,8 @@ export default function ProfilePage() {
     alert('Profile updated!');
   };
 
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin" />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex min-h-screen items-center justify-center flex-col">
-        <p className="text-red-600 text-lg mb-4">{error}</p>
-        <Button onClick={retry} className="bg-blue-600 text-white">Retry</Button>
-      </div>
-    );
-  }
-
   if (!user) {
-    // Show a minimal fallback while redirecting
-    if (typeof window !== 'undefined') {
-      window.location.href = `/auth/login?callbackUrl=${encodeURIComponent(window.location.pathname)}`;
-    }
-    return <div className="flex min-h-screen items-center justify-center">Redirecting...</div>;
+    return null;
   }
 
   return (

@@ -169,31 +169,8 @@ export default function DashboardPage() {
     return date.toLocaleDateString()
   }
 
-  if (error) {
-    return (
-      <div className="flex min-h-screen items-center justify-center flex-col">
-        <p className="text-red-600 text-lg mb-4">{error}</p>
-        <Button onClick={retry} className="bg-blue-600 text-white">Retry</Button>
-      </div>
-    );
-  }
-
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <motion.div className="h-8 w-8 animate-spin">
-          <Calendar className="h-8 w-8" />
-        </motion.div>
-      </div>
-    )
-  }
-
   if (!user) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <p>Please log in to access the dashboard.</p>
-      </div>
-    )
+    return null;
   }
 
   return (
