@@ -2,10 +2,40 @@
 
 import { useAuth } from "@/context/AuthContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2 } from "lucide-react";
+import { Loader2, Camera } from "lucide-react";
+import { useRef, useState } from "react";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 export default function ProfilePage() {
   const { user, profile, loading } = useAuth();
+  const [uploading, setUploading] = useState(false);
+  const [photoUrl, setPhotoUrl] = useState(profile?.image || "");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const supabase = createClientComponentClient();
+
+  const handlePhotoClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !user) return;
+    setUploading(true);
+    const fileExt = file.name.split('.').pop();
+    const filePath = `avatars/${user.id}.${fileExt}`;
+    const { error: uploadError } = await supabase.storage.from('avatars').upload(filePath, file, { upsert: true });
+    if (uploadError) {
+      alert('Failed to upload image');
+      setUploading(false);
+      return;
+    }
+    const { data } = supabase.storage.from('avatars').getPublicUrl(filePath);
+    const publicUrl = data.publicUrl;
+    setPhotoUrl(publicUrl);
+    // Update user profile in DB
+    await supabase.from('users').update({ image: publicUrl }).eq('id', user.id);
+    setUploading(false);
+  };
 
   if (loading) {
     return (
@@ -30,7 +60,32 @@ export default function ProfilePage() {
           <CardTitle className="text-2xl font-bold">My Profile</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
+          <div className="flex flex-col items-center space-y-4">
+            <div className="relative group">
+              <img
+                src={photoUrl || "/images/default-avatar.png"}
+                alt="Profile"
+                className="w-24 h-24 rounded-full object-cover border-2 border-blue-500"
+              />
+              <button
+                type="button"
+                onClick={handlePhotoClick}
+                className="absolute bottom-0 right-0 bg-blue-600 text-white rounded-full p-2 shadow-lg hover:bg-blue-700 transition group-hover:opacity-100 opacity-80"
+                disabled={uploading}
+                title="Change photo"
+              >
+                <Camera className="w-5 h-5" />
+              </button>
+              <input
+                type="file"
+                accept="image/*"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                className="hidden"
+                disabled={uploading}
+              />
+              {uploading && <Loader2 className="absolute top-0 left-0 w-24 h-24 animate-spin text-blue-500 bg-white/60 rounded-full" />}
+            </div>
             <div>
               <span className="font-semibold">First Name:</span> {profile?.first_name || "-"}
             </div>
