@@ -211,7 +211,7 @@ export default function DashboardPage() {
                   </div>
                   <div className="hidden md:block">
                     <Avatar className="h-20 w-20 border-4 border-white/20">
-                      <AvatarImage src={profile?.image || ""} />
+                      <AvatarImage src={profile?.image || `https://avatars.dicebear.com/api/bottts/${user?.email || user?.id}.svg`} />
                       <AvatarFallback className="bg-blue-500 text-white text-2xl">
                         {profile?.first_name?.charAt(0) || user.email.charAt(0)}
                       </AvatarFallback>

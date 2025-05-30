@@ -82,7 +82,7 @@ export default function ProfilePage() {
           <div className="flex flex-col items-center space-y-4">
             <div className="relative group">
               <img
-                src={photoUrl || "/images/default-avatar.png"}
+                src={photoUrl || `https://avatars.dicebear.com/api/bottts/${user?.email || user?.id}.svg`}
                 alt="Profile"
                 className="w-24 h-24 rounded-full object-cover border-2 border-blue-500"
               />
