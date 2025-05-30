@@ -14,10 +14,12 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Menu, X, User, Settings, LogOut } from "lucide-react"
+import { usePathname } from "next/navigation"
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
   const { user, profile, signOut } = useAuth()
+  const pathname = usePathname();
 
   const navigation = [
     { name: "Home", href: "/" },
@@ -31,21 +33,23 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link href="/" className="flex-shrink-0 flex items-center gap-2 h-16">
-              <div className="flex items-center h-full">
-                <Image
-                  src="/images/sharda-logo.png"
-                  alt="Sharda University"
-                  width={40}
-                  height={40}
-                  className="h-10 w-auto max-h-10 object-contain"
-                />
-                <div className="flex flex-col ml-1 justify-center">
-                  <span className="text-xs font-bold text-gray-900 leading-tight">Sharda University</span>
-                  <span className="text-[10px] text-blue-400 font-medium leading-tight">Alumni Portal</span>
+            {pathname !== "/" && (
+              <Link href="/" className="flex-shrink-0 flex items-center gap-2 h-16">
+                <div className="flex items-center h-full">
+                  <Image
+                    src="/images/sharda-logo.png"
+                    alt="Sharda University"
+                    width={40}
+                    height={40}
+                    className="h-10 w-auto max-h-10 object-contain"
+                  />
+                  <div className="flex flex-col ml-1 justify-center">
+                    <span className="text-xs font-bold text-gray-900 leading-tight">Sharda University</span>
+                    <span className="text-[10px] text-blue-400 font-medium leading-tight">Alumni Portal</span>
+                  </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            )}
           </div>
 
           {/* Desktop Navigation */}
