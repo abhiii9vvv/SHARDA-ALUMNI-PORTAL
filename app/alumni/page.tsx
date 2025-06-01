@@ -1,5 +1,3 @@
-"use client"
-
 // ... remove the line: import SuccessStories from "@/success-stories"
 // ... remove the line: <SuccessStories onStoryAction={() => {}} />
 // ... optionally add a comment or placeholder for future alumni features

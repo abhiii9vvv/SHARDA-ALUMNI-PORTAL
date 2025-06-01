@@ -1,5 +1,3 @@
-"use client"
-
 // ... optionally add a comment or placeholder for future events features
 
 import { Button } from "@/components/ui/button"
