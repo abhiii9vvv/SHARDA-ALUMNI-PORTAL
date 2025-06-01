@@ -15,11 +15,13 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Menu, X, User, Settings, LogOut } from "lucide-react"
 import { usePathname } from "next/navigation"
+import { useToast } from "@/components/ui/use-toast"
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
   const { user, profile, signOut } = useAuth()
   const pathname = usePathname();
+  const { toast } = useToast();
 
   const navigation = [
     { name: "Home", href: "/" },
@@ -27,6 +29,12 @@ export default function Navigation() {
     { name: "Alumni", href: "/alumni" },
     { name: "About", href: "/about" },
   ]
+
+  const handleSignOut = async () => {
+    await signOut();
+    toast({ title: "Signed out", description: "You have been signed out successfully." });
+    window.location.href = "/";
+  };
 
   return (
     <nav className="bg-white shadow-lg sticky top-0 z-50" aria-label="Main Navigation">
@@ -103,7 +111,7 @@ export default function Navigation() {
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => signOut()}>
+                  <DropdownMenuItem onClick={handleSignOut}>
                     <LogOut className="mr-2 h-4 w-4" />
                     Sign out
                   </DropdownMenuItem>
