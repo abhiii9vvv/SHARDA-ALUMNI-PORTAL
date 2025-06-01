@@ -228,24 +228,24 @@ export default function Footer() {
 
             {/* Legal Links */}
             <div className="flex gap-6 text-sm">
-              <button
-                onClick={() => alert("Privacy Policy coming soon!")}
+              <a
+                href="/privacy-policy"
                 className="text-gray-400 hover:text-blue-400 transition-colors"
               >
                 Privacy Policy
-              </button>
-              <button
-                onClick={() => alert("Terms of Service coming soon!")}
+              </a>
+              <a
+                href="/terms-of-service"
                 className="text-gray-400 hover:text-blue-400 transition-colors"
               >
                 Terms of Service
-              </button>
-              <button
-                onClick={() => alert("Cookie Policy coming soon!")}
+              </a>
+              <a
+                href="/cookie-policy"
                 className="text-gray-400 hover:text-blue-400 transition-colors"
               >
                 Cookie Policy
-              </button>
+              </a>
             </div>
           </div>
         </div>
