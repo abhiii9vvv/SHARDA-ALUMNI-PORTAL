@@ -39,12 +39,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  // If the user is signed in and trying to access auth pages, redirect to dashboard
-  const isAuthRoute = request.nextUrl.pathname.startsWith("/auth")
-  if (session && isAuthRoute && !request.nextUrl.pathname.startsWith("/auth/error")) {
-    return NextResponse.redirect(new URL("/dashboard", request.url))
-  }
-
   const isAuthPage = request.nextUrl.pathname.startsWith('/auth/login') || request.nextUrl.pathname.startsWith('/auth/register');
   const token = request.cookies.get('sb-access-token')?.value;
 
