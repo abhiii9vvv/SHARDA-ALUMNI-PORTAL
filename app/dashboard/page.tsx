@@ -35,16 +35,47 @@ interface RecentActivity {
 export default function DashboardPage() {
   const { user, profile, loading, error, retry } = useAuth()
   const [stats, setStats] = useState<DashboardStats>({
-    upcomingEvents: 0,
-    myEvents: 0,
-    jobApplications: 0,
-    notifications: 0,
-    connections: 0,
+    upcomingEvents: 2,
+    myEvents: 1,
+    jobApplications: 3,
+    notifications: 2,
+    connections: 47,
   })
   const [recentActivity, setRecentActivity] = useState<RecentActivity>({
-    events: [],
-    jobs: [],
-    notifications: [],
+    events: [
+      {
+        id: 1,
+        title: "Annual Alumni Meet 2024",
+        date: "2024-09-15",
+        location: "Sharda University Campus, Greater Noida",
+      },
+      {
+        id: 2,
+        title: "Tech & Innovation Expo",
+        date: "2024-07-10",
+        location: "Bangalore Chapter",
+      },
+    ],
+    jobs: [
+      {
+        id: 1,
+        title: "Software Engineer",
+        company: "Google",
+        location: "Bangalore, India",
+        posted: "2 days ago",
+      },
+      {
+        id: 2,
+        title: "Marketing Manager",
+        company: "Unilever",
+        location: "Mumbai, India",
+        posted: "5 days ago",
+      },
+    ],
+    notifications: [
+      { id: 1, message: "You have a new connection request from Anjali Rao.", date: "2024-06-01" },
+      { id: 2, message: "Your RSVP for Annual Alumni Meet 2024 is confirmed.", date: "2024-05-28" },
+    ],
   })
   const { toast } = useToast()
   const supabase = getSupabaseClient()
@@ -532,7 +563,7 @@ export default function DashboardPage() {
                     <h3 className="font-semibold text-gray-900 mb-2">Share Story</h3>
                     <p className="text-sm text-gray-600 mb-4">Inspire others with your journey</p>
                     <Button asChild className="w-full">
-                      <Link href="/stories/create">Share Story</Link>
+                      <Link href="/success-stories/create">Share Story</Link>
                     </Button>
                   </CardContent>
                 </AnimatedCard>

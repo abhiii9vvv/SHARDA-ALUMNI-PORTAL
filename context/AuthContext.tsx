@@ -112,6 +112,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (typeof window !== 'undefined') {
       document.cookie = 'sb-access-token=; Max-Age=0; path=/;'
       document.cookie = 'sb-refresh-token=; Max-Age=0; path=/;'
+      localStorage.removeItem('sb-access-token')
+      localStorage.removeItem('sb-refresh-token')
+      window.location.replace('/auth/login')
     }
   }
 

@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Menu, X, User, Settings, LogOut } from "lucide-react"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { useToast } from "@/components/ui/use-toast"
 
 export default function Navigation() {
@@ -22,6 +22,7 @@ export default function Navigation() {
   const { user, profile, signOut } = useAuth()
   const pathname = usePathname();
   const { toast } = useToast();
+  const router = useRouter();
 
   const navigation = [
     { name: "Home", href: "/" },
@@ -34,6 +35,11 @@ export default function Navigation() {
     await signOut();
     toast({ title: "Signed out", description: "You have been signed out successfully." });
     window.location.href = "/";
+  };
+
+  const handleSignUp = () => {
+    router.push("/auth/register");
+    router.refresh();
   };
 
   return (
@@ -122,8 +128,8 @@ export default function Navigation() {
                 <Button variant="ghost" asChild>
                   <Link href="/auth/login">Sign In</Link>
                 </Button>
-                <Button asChild>
-                  <Link href="/auth/register">Sign Up</Link>
+                <Button onClick={handleSignUp}>
+                  Sign Up
                 </Button>
               </div>
             )}
@@ -173,7 +179,7 @@ export default function Navigation() {
               className="text-gray-800 hover:text-blue-700 block px-3 py-2 text-base font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
               tabIndex={0}
               aria-label="Sign Up"
-              onClick={() => setIsOpen(false)}
+              onClick={() => { setIsOpen(false); handleSignUp(); }}
             >
               Sign Up
             </Link>
