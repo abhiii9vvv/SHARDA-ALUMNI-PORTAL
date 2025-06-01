@@ -30,9 +30,9 @@ export default function LoginPage() {
   useEffect(() => {
     if (user) {
       if (callbackUrl) {
-        router.push(callbackUrl);
+        router.replace(callbackUrl);
       } else {
-        router.push("/");
+        router.replace("/");
       }
     }
   }, [user, router, callbackUrl]);
