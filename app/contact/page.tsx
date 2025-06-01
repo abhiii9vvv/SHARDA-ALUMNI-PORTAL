@@ -6,9 +6,7 @@ export const metadata = {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, MapPin } from "lucide-react";
-import dynamic from "next/dynamic";
-
-const ClientContactForm = dynamic(() => import("./ClientContactForm"), { ssr: false });
+import ClientContactForm from "./ClientContactForm";
 
 export default function ContactPage() {
   return (
