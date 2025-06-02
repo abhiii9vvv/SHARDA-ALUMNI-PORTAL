@@ -5,8 +5,6 @@ import "./globals.css"
 import { AuthProvider } from "@/context/AuthContext"
 import { Toaster } from "@/components/ui/toaster"
 import MadeByAbhinav from "@/components/MadeByAbhinav"
-import HomeButton from "@/components/home-button"
-import Navigation from "@/navigation"
 import Head from "next/head"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -34,14 +32,7 @@ export default function RootLayout({
       </Head>
       <body className={inter.className}>
         <AuthProvider>
-          <Navigation 
-            onNavigate={(page) => console.log(`Navigating to ${page}`)}
-            isLoggedIn={false}
-          />
-          <div className="pt-20"> {/* Add padding to account for fixed navigation */}
-            {children}
-          </div>
-          <HomeButton />
+          {children}
           <Toaster />
         </AuthProvider>
         <MadeByAbhinav />
