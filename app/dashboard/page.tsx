@@ -42,41 +42,18 @@ export default function DashboardPage() {
     connections: 47,
   })
   const [recentActivity, setRecentActivity] = useState<RecentActivity>({
-    events: [
-      {
-        id: 1,
-        title: "Annual Alumni Meet 2024",
-        date: "2024-09-15",
-        location: "Sharda University Campus, Greater Noida",
-      },
-      {
-        id: 2,
-        title: "Tech & Innovation Expo",
-        date: "2024-07-10",
-        location: "Bangalore Chapter",
-      },
-    ],
-    jobs: [
-      {
-        id: 1,
-        title: "Software Engineer",
-        company: "Google",
-        location: "Bangalore, India",
-        posted: "2 days ago",
-      },
-      {
-        id: 2,
-        title: "Marketing Manager",
-        company: "Unilever",
-        location: "Mumbai, India",
-        posted: "5 days ago",
-      },
-    ],
-    notifications: [
-      { id: 1, message: "You have a new connection request from Anjali Rao.", date: "2024-06-01" },
-      { id: 2, message: "Your RSVP for Annual Alumni Meet 2024 is confirmed.", date: "2024-05-28" },
-    ],
+    events: [],
+    jobs: [],
+    notifications: [],
   })
+  const [jobsLoading, setJobsLoading] = useState(true);
+  const [jobsError, setJobsError] = useState<string | null>(null);
+  const [eventsLoading, setEventsLoading] = useState(true);
+  const [eventsError, setEventsError] = useState<string | null>(null);
+  const [notificationsLoading, setNotificationsLoading] = useState(true);
+  const [notificationsError, setNotificationsError] = useState<string | null>(null);
+  const [connectionsLoading, setConnectionsLoading] = useState(true);
+  const [connectionsError, setConnectionsError] = useState<string | null>(null);
   const { toast } = useToast()
   const supabase = getSupabaseClient()
 
@@ -91,12 +68,25 @@ export default function DashboardPage() {
 
     try {
       // Fetch user's registered events
-      const { data: registeredEvents } = await supabase
-        .from("event_registrations")
-        .select(`
-          event:events(*)
-        `)
-        .eq("user_id", user.id)
+      setEventsLoading(true);
+      setEventsError(null);
+      let registeredEvents = [];
+      try {
+        const { data, error } = await supabase
+          .from("event_registrations")
+          .select(`
+            event:events(*)
+          `)
+          .eq("user_id", user.id);
+        if (error) {
+          setEventsError("Failed to load your events.");
+        }
+        registeredEvents = data || [];
+      } catch (err) {
+        setEventsError("Failed to load your events.");
+      } finally {
+        setEventsLoading(false);
+      }
 
       // Fetch user's created events
       const { data: myEvents } = await supabase.from("events").select("*").eq("organizer_id", user.id)
@@ -113,35 +103,80 @@ export default function DashboardPage() {
         .limit(5)
 
       // Fetch user's notifications
-      const { data: notifications } = await supabase
-        .from("notifications")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("created_at", { ascending: false })
-        .limit(5)
+      setNotificationsLoading(true);
+      setNotificationsError(null);
+      let notifications = [];
+      try {
+        const { data, error } = await supabase
+          .from("notifications")
+          .select("*")
+          .eq("user_id", user.id)
+          .order("created_at", { ascending: false })
+          .limit(5);
+        if (error) {
+          setNotificationsError("Failed to load notifications.");
+        }
+        notifications = data || [];
+      } catch (err) {
+        setNotificationsError("Failed to load notifications.");
+      } finally {
+        setNotificationsLoading(false);
+      }
 
       // Fetch recent jobs
-      const { data: recentJobs } = await supabase
-        .from("jobs")
-        .select(`
-          *,
-          poster:users!posted_by(first_name, last_name, company)
-        `)
-        .eq("is_active", true)
-        .eq("is_approved", true)
-        .order("created_at", { ascending: false })
-        .limit(3)
+      setJobsLoading(true);
+      setJobsError(null);
+      let recentJobs = [];
+      try {
+        const { data, error } = await supabase
+          .from("jobs")
+          .select(`
+            *,
+            poster:users!posted_by(first_name, last_name, company)
+          `)
+          .eq("is_active", true)
+          .eq("is_approved", true)
+          .order("created_at", { ascending: false })
+          .limit(3);
+        if (error) {
+          setJobsError("Failed to load recent jobs.");
+        }
+        recentJobs = data || [];
+      } catch (err) {
+        setJobsError("Failed to load recent jobs.");
+      } finally {
+        setJobsLoading(false);
+      }
 
       // Calculate upcoming events
       const upcomingEvents = registeredEvents?.filter((reg) => new Date(reg.event.event_date) > new Date()) || []
 
-      // Update stats
+      // Fetch alumni count for connections stat
+      setConnectionsLoading(true);
+      setConnectionsError(null);
+      let alumniCount = 0;
+      try {
+        const { count, error } = await supabase
+          .from("users")
+          .select("id", { count: "exact", head: true });
+        if (error) {
+          setConnectionsError("Failed to load alumni count.");
+        } else {
+          alumniCount = count || 0;
+        }
+      } catch (err) {
+        setConnectionsError("Failed to load alumni count.");
+      } finally {
+        setConnectionsLoading(false);
+      }
+
+      // Update stats and recent activity accordingly
       setStats({
         upcomingEvents: upcomingEvents.length,
         myEvents: myEvents?.length || 0,
         jobApplications: jobApplications?.length || 0,
         notifications: notifications?.filter((n) => !n.is_read).length || 0,
-        connections: Math.floor(Math.random() * 50) + 10, // Placeholder
+        connections: alumniCount,
       })
 
       // Update recent activity
@@ -317,7 +352,13 @@ export default function DashboardPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm font-medium text-gray-500 mb-1">Connections</p>
-                      <h3 className="text-3xl font-bold text-gray-900">{stats.connections}</h3>
+                      {connectionsLoading ? (
+                        <svg className="animate-spin h-6 w-6 text-yellow-600 mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg>
+                      ) : connectionsError ? (
+                        <span className="text-red-500 text-sm">{connectionsError}</span>
+                      ) : (
+                        <h3 className="text-3xl font-bold text-gray-900">{stats.connections}</h3>
+                      )}
                     </div>
                     <div className="bg-yellow-100 p-3 rounded-full">
                       <Users className="h-6 w-6 text-yellow-600" />
@@ -343,60 +384,85 @@ export default function DashboardPage() {
                       <Link href="/events">
                         View All
                         <ExternalLink className="h-3 w-3 ml-1" />
-                      </Link>
-                    </Button>
-                  </div>
-                  <CardDescription>Events you're registered for</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  {recentActivity.events.length > 0 ? (
-                    <div className="space-y-4">
-                      {recentActivity.events.map((event) => (
-                        <motion.div
-                          key={event.id}
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
-                          onClick={() => window.open(`/events/${event.id}`, "_blank")}
-                        >
-                          <div className="bg-blue-100 p-2 rounded-lg">
-                            <Calendar className="h-4 w-4 text-blue-600" />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <h4 className="font-semibold text-gray-900 truncate">{event.title}</h4>
-                            <div className="flex items-center text-sm text-gray-500 mt-1">
-                              <Clock className="h-3 w-3 mr-1" />
-                              {formatDate(event.event_date)}
-                            </div>
-                            <div className="flex items-center text-sm text-gray-500">
-                              <MapPin className="h-3 w-3 mr-1" />
-                              {event.location}
-                            </div>
-                          </div>
-                          <Badge variant="outline" className="text-xs">
-                            {event.event_type}
-                          </Badge>
-                        </motion.div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="text-center py-8">
-                      <Calendar className="h-12 w-12 text-gray-300 mx-auto mb-3" />
-                      <p className="text-gray-500 text-sm mb-3">No upcoming events</p>
-                      <Button size="sm" asChild>
-                        <Link href="/events">
-                          <Plus className="h-3 w-3 mr-1" />
-                          Browse Events
-                        </Link>
-                      </Button>
-                    </div>
-                  )}
-                </CardContent>
-              </AnimatedCard>
 
-              {/* Recent Jobs */}
-              <AnimatedCard delay={0.2}>
-                <CardHeader className="pb-4">
+              {/* Recent Activity Section */}
+              <FadeIn delay={0.4}>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                  {/* Upcoming Events */}
+                  <AnimatedCard delay={0.1}>
+                    <CardHeader className="pb-4">
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="flex items-center text-lg">
+                          <Calendar className="h-5 w-5 mr-2 text-blue-600" />
+                          Upcoming Events
+                        </CardTitle>
+                        <Button variant="ghost" size="sm" asChild>
+                          <Link href="/events">
+                            View All
+                            <ExternalLink className="h-3 w-3 ml-1" />
+                          </Link>
+                        </Button>
+                      </div>
+                      <CardDescription>Events you're registered for</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      {eventsLoading ? (
+                        <div className="flex flex-col items-center justify-center py-8">
+                          <svg className="animate-spin h-8 w-8 text-blue-500 mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg>
+                          <span className="text-gray-500">Loading events...</span>
+                        </div>
+                      ) : eventsError ? (
+                        <div className="text-center py-8">
+                          <Calendar className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+                          <p className="text-red-500 text-sm mb-3">{eventsError}</p>
+                          <Button size="sm" asChild>
+                            <Link href="/events">
+                              <Plus className="h-3 w-3 mr-1" />
+                              Browse Events
+                            </Link>
+                          </Button>
+                        </div>
+                      ) : recentActivity.events.length > 0 ? (
+                        <div className="space-y-4">
+                          {recentActivity.events.map((event) => (
+                            <motion.div
+                              key={event.id}
+                              initial={{ opacity: 0, x: -20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+                              onClick={() => window.open(`/events/${event.id}`, "_blank")}
+                            >
+                              <div className="bg-blue-100 p-2 rounded-lg">
+                                <Calendar className="h-4 w-4 text-blue-600" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <h4 className="font-semibold text-gray-900 truncate">{event.title}</h4>
+                                <div className="flex items-center text-sm text-gray-500 mt-1">
+                                  <Clock className="h-3 w-3 mr-1" />
+                                  {formatDate(event.event_date)}
+                                </div>
+                                <div className="flex items-center text-sm text-gray-500">
+                                  <MapPin className="h-3 w-3 mr-1" />
+                                  {event.location}
+                                </div>
+                              </div>
+                              <Badge variant="outline" className="text-xs">
+                                {event.event_type}
+                              </Badge>
+                            </motion.div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="text-center py-8">
+                          <Calendar className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+                          <p className="text-gray-500 text-sm mb-3">No upcoming events</p>
+                          <Button size="sm" asChild>
+                            <Link href="/events">
+                              <Plus className="h-3 w-3 mr-1" />
+                              Browse Events
+                            </Link>
+                          </Button>
+                        </div>
                   <div className="flex items-center justify-between">
                     <CardTitle className="flex items-center text-lg">
                       <Briefcase className="h-5 w-5 mr-2 text-green-600" />
@@ -412,7 +478,23 @@ export default function DashboardPage() {
                   <CardDescription>Latest job opportunities</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  {recentActivity.jobs.length > 0 ? (
+                  {jobsLoading ? (
+                    <div className="flex flex-col items-center justify-center py-8">
+                      <svg className="animate-spin h-8 w-8 text-blue-500 mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg>
+                      <span className="text-gray-500">Loading jobs...</span>
+                    </div>
+                  ) : jobsError ? (
+                    <div className="text-center py-8">
+                      <Briefcase className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+                      <p className="text-red-500 text-sm mb-3">{jobsError}</p>
+                      <Button size="sm" asChild>
+                        <Link href="/jobs">
+                          <Plus className="h-3 w-3 mr-1" />
+                          Browse Jobs
+                        </Link>
+                      </Button>
+                    </div>
+                  ) : recentActivity.jobs.length > 0 ? (
                     <div className="space-y-4">
                       {recentActivity.jobs.map((job) => (
                         <motion.div
@@ -437,7 +519,7 @@ export default function DashboardPage() {
                             <Badge variant="outline" className="text-xs mb-1">
                               {job.job_type}
                             </Badge>
-                            <span className="text-xs text-gray-400">{getTimeAgo(job.created_at)}</span>
+                            <span className="text-xs text-gray-400">{job.created_at ? getTimeAgo(job.created_at) : "N/A"}</span>
                           </div>
                         </motion.div>
                       ))}
@@ -472,7 +554,17 @@ export default function DashboardPage() {
                   <CardDescription>Recent activity updates</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  {recentActivity.notifications.length > 0 ? (
+                  {notificationsLoading ? (
+                    <div className="flex flex-col items-center justify-center py-8">
+                      <svg className="animate-spin h-8 w-8 text-orange-500 mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg>
+                      <span className="text-gray-500">Loading notifications...</span>
+                    </div>
+                  ) : notificationsError ? (
+                    <div className="text-center py-8">
+                      <Bell className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+                      <p className="text-red-500 text-sm mb-3">{notificationsError}</p>
+                    </div>
+                  ) : recentActivity.notifications.length > 0 ? (
                     <div className="space-y-4">
                       {recentActivity.notifications.map((notification) => (
                         <motion.div
@@ -507,7 +599,7 @@ export default function DashboardPage() {
                             >
                               {notification.message}
                             </p>
-                            <span className="text-xs text-gray-400">{getTimeAgo(notification.created_at)}</span>
+                            <span className="text-xs text-gray-400">{notification.created_at ? getTimeAgo(notification.created_at) : "N/A"}</span>
                           </div>
                           {!notification.is_read && <div className="w-2 h-2 bg-blue-500 rounded-full mt-2" />}
                         </motion.div>

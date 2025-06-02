@@ -1,125 +1,62 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 
 export default function SuccessStoriesClient() {
+  // Types
+  type SuccessStory = {
+    id: number;
+    name: string;
+    title: string;
+    photo: string;
+    summary: string;
+    graduationYear: string;
+    industry: string;
+    batch: string;
+  };
+
+  const [successStories, setSuccessStories] = useState<SuccessStory[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedBatch, setSelectedBatch] = useState<string>("all");
   const [selectedIndustry, setSelectedIndustry] = useState<string>("all");
 
-  const successStories = [
-    {
-      id: 1,
-      name: "Priya Sharma",
-      title: "Senior Software Engineer at Google",
-      photo: "/images/alumni-priya.jpg",
-      summary:
-        "From a computer science graduate to leading innovative projects at Google. Sharda University provided me with the foundation and confidence to pursue my dreams in tech.",
-      graduationYear: "2018",
-      industry: "Technology",
-      batch: "2018",
-    },
-    {
-      id: 2,
-      name: "Rajesh Kumar",
-      title: "Founder & CEO, TechStart Solutions",
-      photo: "/images/alumni-rajesh.jpg",
-      summary:
-        "My entrepreneurial journey began at Sharda University. The business incubation program and mentorship helped me build a successful startup that now employs 200+ people.",
-      graduationYear: "2016",
-      industry: "Entrepreneurship",
-      batch: "2016",
-    },
-    {
-      id: 3,
-      name: "Dr. Anita Verma",
-      title: "Chief Medical Officer, Apollo Hospitals",
-      photo: "/images/alumni-anita.jpg",
-      summary:
-        "The medical program at Sharda University shaped my career in healthcare. Today, I'm proud to lead medical innovations that impact thousands of lives daily.",
-      graduationYear: "2015",
-      industry: "Healthcare",
-      batch: "2015",
-    },
-    {
-      id: 4,
-      name: "Vikram Singh",
-      title: "Investment Director, Goldman Sachs",
-      photo: "/images/alumni-vikram.jpg",
-      summary:
-        "The finance program and industry connections at Sharda University opened doors to Wall Street. Now I manage multi-billion dollar portfolios and mentor young professionals.",
-      graduationYear: "2017",
-      industry: "Finance",
-      batch: "2017",
-    },
-    {
-      id: 5,
-      name: "Meera Patel",
-      title: "Creative Director, Ogilvy & Mather",
-      photo: "/images/alumni-meera.jpg",
-      summary:
-        "Sharda University nurtured my creative talents and provided the perfect platform to explore advertising. Today, I lead campaigns for global brands and inspire the next generation.",
-      graduationYear: "2019",
-      industry: "Advertising",
-      batch: "2019",
-    },
-    {
-      id: 6,
-      name: "Amit Joshi",
-      title: "Lead Data Scientist, Infosys",
-      photo: "/images/alumni-amit.jpg",
-      summary:
-        "Sharda's focus on analytics and real-world projects gave me the skills to excel in data science. Now, I lead a team solving complex business problems with AI.",
-      graduationYear: "2020",
-      industry: "Technology",
-      batch: "2020",
-    },
-    {
-      id: 7,
-      name: "Sonal Kapoor",
-      title: "Head of Marketing, Unilever India",
-      photo: "/images/alumni-sonal.jpg",
-      summary:
-        "The vibrant campus life and leadership opportunities at Sharda shaped my marketing career. Today, I drive brand strategy for one of the world's largest FMCG companies.",
-      graduationYear: "2014",
-      industry: "Marketing",
-      batch: "2014",
-    },
-    {
-      id: 8,
-      name: "Mohit Sinha",
-      title: "Senior Architect, Larsen & Toubro",
-      photo: "/images/alumni-mohit.jpg",
-      summary:
-        "Sharda's architecture program encouraged creativity and innovation. My designs now shape skylines across India.",
-      graduationYear: "2013",
-      industry: "Architecture",
-      batch: "2013",
-    },
-    {
-      id: 9,
-      name: "Fatima Khan",
-      title: "Research Scientist, CSIR",
-      photo: "/images/alumni-fatima.jpg",
-      summary:
-        "The research culture at Sharda University inspired my passion for discovery. I now contribute to cutting-edge scientific advancements in India.",
-      graduationYear: "2012",
-      industry: "Research",
-      batch: "2012",
-    },
-    {
-      id: 10,
-      name: "Rohan Mehta",
-      title: "Product Manager, Flipkart",
-      photo: "/images/alumni-rohan.jpg",
-      summary:
-        "Sharda's entrepreneurial spirit and tech focus helped me launch my career in product management. I now lead teams building India's top e-commerce experiences.",
-      graduationYear: "2021",
-      industry: "E-commerce",
-      batch: "2021",
-    },
-  ];
+  useEffect(() => {
+    const fetchStories = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const supabase = (await import("@/lib/supabase/client")).getSupabaseClient();
+        const { data, error } = await supabase
+          .from("success_stories")
+          .select("id, name, title, photo, summary, graduation_year, industry, batch")
+          .order("graduation_year", { ascending: false });
+        if (error) {
+          setError("Failed to load success stories.");
+        } else {
+          setSuccessStories(
+            (data || []).map((story: any) => ({
+              id: story.id,
+              name: story.name,
+              title: story.title,
+              photo: story.photo || "/images/alumni-placeholder.png",
+              summary: story.summary,
+              graduationYear: story.graduation_year,
+              industry: story.industry,
+              batch: story.batch,
+            }))
+          );
+        }
+      } catch (err) {
+        setError("Failed to load success stories.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchStories();
+  }, []);
 
   const batches = Array.from(new Set(successStories.map(s => s.batch))).sort((a, b) => b.localeCompare(a));
   const industries = Array.from(new Set(successStories.map(s => s.industry))).sort();
@@ -186,33 +123,41 @@ export default function SuccessStoriesClient() {
 
         {/* Success Stories Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {filteredStories.slice(0, 3).map((story) => (
-            <Card
-              key={story.id}
-              className="bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
-            >
-              <CardContent className="p-4">
-                <div className="flex items-center space-x-4">
-                  <div className="flex-shrink-0 h-10 w-10">
+          {loading ? (
+            <div className="col-span-full flex flex-col items-center justify-center py-16">
+              <svg className="animate-spin h-8 w-8 text-blue-500 mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg>
+              <span className="text-gray-400">Loading success stories...</span>
+            </div>
+          ) : error ? (
+            <div className="col-span-full flex flex-col items-center justify-center py-16">
+              <svg className="h-12 w-12 text-gray-300 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z" /></svg>
+              <span className="text-red-400">{error}</span>
+            </div>
+          ) : filteredStories.length === 0 ? (
+            <div className="col-span-full text-center text-gray-500">No success stories found.</div>
+          ) : (
+            filteredStories.map((story) => (
+              <Card key={story.id} className="bg-white/90 border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+                <CardContent className="p-6 flex flex-col items-center">
+                  <div className="w-24 h-24 mb-4 relative">
                     <Image
                       src={story.photo}
-                      alt={`Photo of ${story.name}, ${story.title}`}
-                      width={40}
-                      height={40}
-                      className="rounded-full"
+                      alt={story.name}
+                      width={96}
+                      height={96}
+                      className="rounded-full object-cover border-4 border-blue-100"
                     />
                   </div>
-                  <div>
-                    <h3 className="text-sm leading-5 font-medium text-gray-900">{story.name}</h3>
-                    <div className="text-sm leading-5 text-gray-500">{story.title}</div>
-                  </div>
-                </div>
-                <div className="mt-2 text-base leading-6 text-gray-700">{story.summary}</div>
-              </CardContent>
-            </Card>
-          ))}
+                  <h2 className="text-xl font-semibold text-gray-900 mb-1 text-center">{story.name}</h2>
+                  <div className="text-sm text-blue-700 font-medium mb-1 text-center">{story.title}</div>
+                  <div className="text-xs text-gray-500 mb-3 text-center">Batch {story.graduationYear} &bull; {story.industry}</div>
+                  <div className="text-sm text-gray-600 text-center">{story.summary}</div>
+                </CardContent>
+              </Card>
+            ))
+          )}
         </div>
       </div>
     </section>
   );
-} 
+}
