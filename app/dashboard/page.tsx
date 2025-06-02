@@ -16,6 +16,8 @@ import { useToast } from "@/components/ui/use-toast"
 import { FadeIn } from "@/components/ui/fade-in"
 import { AnimatedCard } from "@/components/ui/animated-card"
 import Navigation from "@/components/navigation"
+// If you see a TypeScript error about missing declaration for lucide-react/dist/esm/icons/user, add a .d.ts file in your project root:
+// declare module 'lucide-react/dist/esm/icons/user';
 import User from "lucide-react/dist/esm/icons/user" // Import User icon
 
 interface DashboardStats {
@@ -70,7 +72,7 @@ export default function DashboardPage() {
       // Fetch user's registered events
       setEventsLoading(true);
       setEventsError(null);
-      let registeredEvents = [];
+      let registeredEvents: any[] = []; // TODO: Replace 'any' with a proper Event type
       try {
         const { data, error } = await supabase
           .from("event_registrations")
@@ -105,7 +107,7 @@ export default function DashboardPage() {
       // Fetch user's notifications
       setNotificationsLoading(true);
       setNotificationsError(null);
-      let notifications = [];
+      let notifications: any[] = []; // TODO: Replace 'any' with a proper Notification type
       try {
         const { data, error } = await supabase
           .from("notifications")
@@ -126,7 +128,7 @@ export default function DashboardPage() {
       // Fetch recent jobs
       setJobsLoading(true);
       setJobsError(null);
-      let recentJobs = [];
+      let recentJobs: any[] = []; // TODO: Replace 'any' with a proper Job type
       try {
         const { data, error } = await supabase
           .from("jobs")
@@ -233,7 +235,6 @@ export default function DashboardPage() {
     const diffInDays = Math.floor(diffInHours / 24)
     if (diffInDays < 7) return `${diffInDays}d ago`
     return date.toLocaleDateString()
-  }
 
   if (!user) {
     return null;
@@ -249,6 +250,9 @@ export default function DashboardPage() {
           <FadeIn>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-8"
+            >
               animate={{ opacity: 1, y: 0 }}
               className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl shadow-lg p-8 mb-8 text-white relative overflow-hidden"
             >
@@ -277,6 +281,9 @@ export default function DashboardPage() {
           {/* Stats Cards */}
           <FadeIn delay={0.2}>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+              {/* Cards go here */}
+            </div>
+          </FadeIn>
               <AnimatedCard delay={0.1}>
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
@@ -372,6 +379,9 @@ export default function DashboardPage() {
           {/* Recent Activity Section */}
           <FadeIn delay={0.4}>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* Recent Activity Section */}
+            </div>
+          </FadeIn>
               {/* Upcoming Events */}
               <AnimatedCard delay={0.1}>
                 <CardHeader className="pb-4">
@@ -619,6 +629,9 @@ export default function DashboardPage() {
           {/* Quick Actions */}
           <FadeIn delay={0.6}>
             <div className="mt-8">
+              {/* Quick Actions Section */}
+            </div>
+          </FadeIn>
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Quick Actions</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <AnimatedCard delay={0.1}>

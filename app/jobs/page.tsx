@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Briefcase, Search } from "lucide-react";
 
 import { useEffect } from "react";
-import { getJobs } from "@/lib/supabase/queries";
+// import { getJobs } from "@/lib/supabase/queries";
+// TODO: Replace with client-side Supabase fetch or move logic to server component.
 
 interface Job {
   id: string;
@@ -30,8 +31,17 @@ export default function JobsPage() {
       setLoading(true);
       setError(null);
       try {
-        const data = await getJobs();
-        setJobs(data || []);
+        const supabase = require('@/lib/supabase/client').getSupabaseClient();
+        const { data, error } = await supabase
+          .from('jobs')
+          .select('*')
+          .order('created_at', { ascending: false });
+        if (error) {
+          setError('Failed to load jobs.');
+          setJobs([]);
+        } else {
+          setJobs(data || []);
+        }
       } catch (err: any) {
         setError("Failed to load jobs.");
       } finally {

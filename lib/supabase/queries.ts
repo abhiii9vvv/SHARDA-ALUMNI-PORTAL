@@ -1,4 +1,5 @@
 import { createServerClient } from "@supabase/ssr"
+// WARNING: This file is server-only. Do not import in client components or pages directory.
 import { cookies } from "next/headers"
 import type { Database } from "@/types/database"
 

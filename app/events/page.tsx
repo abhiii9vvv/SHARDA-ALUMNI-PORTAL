@@ -1,4 +1,4 @@
-// ... optionally add a comment or placeholder for future events features
+"use client";
 
 import { Button } from "@/components/ui/button"
 import { Calendar, MapPin, Users } from "lucide-react"
