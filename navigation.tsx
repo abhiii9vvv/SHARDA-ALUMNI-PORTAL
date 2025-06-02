@@ -28,12 +28,32 @@ export default function Navigation({ onNavigate, isLoggedIn = false, user, onLog
         { name: "Alumni Directory", href: "/alumni/directory", action: () => router.push("/alumni/directory") },
         { name: "Notable Alumni", href: "/success-stories", action: () => router.push("/success-stories") },
         { name: "Alumni Chapters", href: "/alumni/chapters", action: () => router.push("/alumni/chapters") },
+        { name: "Mentorship", href: "/mentorship", action: () => router.push("/mentorship") },
+        { name: "Volunteer", href: "/volunteer", action: () => router.push("/volunteer") },
       ],
     },
-    { name: "Events", href: "/events", action: () => router.push("/events") },
-    { name: "Job Board", href: "/jobs", action: () => router.push("/jobs") },
+    {
+      name: "Events",
+      href: "/events",
+      hasDropdown: true,
+      dropdownItems: [
+        { name: "All Events", href: "/events", action: () => router.push("/events") },
+        { name: "Upcoming Events", href: "/upcoming-events", action: () => router.push("/upcoming-events") },
+        { name: "Create Event", href: "/events/create", action: () => router.push("/events/create") },
+      ],
+    },
+    {
+      name: "Career",
+      href: "/jobs",
+      hasDropdown: true,
+      dropdownItems: [
+        { name: "Job Board", href: "/jobs", action: () => router.push("/jobs") },
+        { name: "Career Advice", href: "/career-advice", action: () => router.push("/career-advice") },
+        { name: "Professional Development", href: "/professional-development", action: () => router.push("/professional-development") },
+      ],
+    },
     { name: "About", href: "/about", action: () => router.push("/about") },
-    { name: "Upcoming Events", href: "/upcoming-events", action: () => router.push("/upcoming-events") },
+    { name: "Contact", href: "/contact", action: () => router.push("/contact") },
   ]
 
   const handleSearch = () => {
