@@ -58,12 +58,32 @@ export default function EventsPage() {
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-12">
         <h1 className="text-4xl font-bold text-white mb-8">Events</h1>
         
-        {/* Add event filters */}
-        <div className="flex gap-4 mb-8">
-          <Button variant="outline" className="text-white border-white hover:bg-white hover:text-gray-900">All Events</Button>
-          <Button variant="outline" className="text-white border-white hover:bg-white hover:text-gray-900">Networking</Button>
-          <Button variant="outline" className="text-white border-white hover:bg-white hover:text-gray-900">Professional Development</Button>
-          <Button variant="outline" className="text-white border-white hover:bg-white hover:text-gray-900">Social</Button>
+        {/* Add event filters with improved styling */}
+        <div className="flex flex-wrap gap-4 mb-8">
+          <Button 
+            variant="outline" 
+            className="bg-gray-800/50 text-white border-gray-600 hover:bg-gray-700 hover:text-white transition-colors"
+          >
+            All Events
+          </Button>
+          <Button 
+            variant="outline" 
+            className="bg-gray-800/50 text-white border-gray-600 hover:bg-gray-700 hover:text-white transition-colors"
+          >
+            Networking
+          </Button>
+          <Button 
+            variant="outline" 
+            className="bg-gray-800/50 text-white border-gray-600 hover:bg-gray-700 hover:text-white transition-colors"
+          >
+            Professional Development
+          </Button>
+          <Button 
+            variant="outline" 
+            className="bg-gray-800/50 text-white border-gray-600 hover:bg-gray-700 hover:text-white transition-colors"
+          >
+            Social
+          </Button>
         </div>
         
         {/* Add event statistics */}

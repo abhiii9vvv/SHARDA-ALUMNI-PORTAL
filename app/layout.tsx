@@ -5,6 +5,7 @@ import "./globals.css"
 import { AuthProvider } from "@/context/AuthContext"
 import { Toaster } from "@/components/ui/toaster"
 import MadeByAbhinav from "@/components/MadeByAbhinav"
+import HomeButton from "@/components/home-button"
 import Head from "next/head"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -33,6 +34,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <AuthProvider>
           {children}
+          <HomeButton />
           <Toaster />
         </AuthProvider>
         <MadeByAbhinav />
