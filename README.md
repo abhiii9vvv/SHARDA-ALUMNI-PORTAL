@@ -2,7 +2,8 @@
 
 A modern, responsive web platform designed to connect Sharda University alumni with current students and the broader university community. This portal facilitates networking, mentorship, and career opportunities, fostering a vibrant alumni ecosystem.
 
-![Sharda Alumni Portal Banner](https://your-image-link.com/banner.png)
+![Sharda Alumni Portal Banner](![image](https://github.com/user-attachments/assets/cd05b675-6984-411b-b2d2-b991aa520847)
+)
 
 ## 🌐 Live Demo
 
@@ -34,19 +35,23 @@ A modern, responsive web platform designed to connect Sharda University alumni w
 
 ### 🏠 Home Page
 
-![Home Page](https://your-image-link.com/home.png)
+![Home Page](![image](https://github.com/user-attachments/assets/016d2d6d-14d3-4414-a059-3ff76ad3327c)
+)
 
 ### 📇 Alumni Directory
 
-![Alumni Directory](https://your-image-link.com/directory.png)
+![Alumni Directory](![image](https://github.com/user-attachments/assets/2dfcbeed-2224-40f1-975b-e599f40ccdae)
+)
 
 ### 📅 Events Calendar
 
-![Events Calendar](https://your-image-link.com/events.png)
+![Events Calendar](![image](https://github.com/user-attachments/assets/53b342a2-fe40-4bca-b51e-80aca2c54126)
+)
 
 ### 💼 Job Board
 
-![Job Board](https://your-image-link.com/jobs.png)
+![Job Board](![image](https://github.com/user-attachments/assets/6e90ba02-bc52-4102-b720-cad7ec21ec5c)
+)
 
 ---
 
@@ -99,14 +104,3 @@ Contributions are welcome! Here's how you can help:
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ```
-
----
-
-**Note**: Replace the placeholder image links (`https://your-image-link.com/...`) with actual URLs of your project screenshots or banners.:contentReference[oaicite:47]{index=47}
-
-If you'd like assistance in creating a logo or banner image for the README, feel free to ask!
-::contentReference[oaicite:48]{index=48}
- 
-```
-
-[1]: https://github.com/abhinavtiwari?utm_source=chatgpt.com "Abhinavtiwari (Abhinav Tiwari) - GitHub"
