@@ -1,8 +1,3 @@
-Based on the live demo of your **Sharda Alumni Portal** , here's an enhanced `README.md` tailored to showcase its features and appeal to potential contributors or recruiters:([github.com][1])
-
----
-
-````markdown
 # 🎓 Sharda Alumni Portal
 
 A modern, responsive web platform designed to connect Sharda University alumni with current students and the broader university community. This portal facilitates networking, mentorship, and career opportunities, fostering a vibrant alumni ecosystem.
