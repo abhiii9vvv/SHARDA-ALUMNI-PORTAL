@@ -37,7 +37,7 @@ A modern, responsive web platform designed to connect Sharda University alumni w
 ### 🏠 Home Page
 
 ![Home Page](![image](https://github.com/user-attachments/assets/016d2d6d-14d3-4414-a059-3ff76ad3327c)
-)
+
 
 ### 📇 Alumni Directory
 
@@ -45,11 +45,11 @@ A modern, responsive web platform designed to connect Sharda University alumni w
 
 
 ### 📅 Events Calendar
-(![image](https://github.com/user-attachments/assets/53b342a2-fe40-4bca-b51e-80aca2c54126)
+![image](https://github.com/user-attachments/assets/53b342a2-fe40-4bca-b51e-80aca2c54126)
 
 
 ### 💼 Job Board
-(![image](https://github.com/user-attachments/assets/6e90ba02-bc52-4102-b720-cad7ec21ec5c)
+![image](https://github.com/user-attachments/assets/6e90ba02-bc52-4102-b720-cad7ec21ec5c)
 
 
 ---
