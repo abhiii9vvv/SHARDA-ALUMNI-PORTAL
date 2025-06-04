@@ -2,7 +2,7 @@
 
 A modern, responsive web platform designed to connect Sharda University alumni with current students and the broader university community. This portal facilitates networking, mentorship, and career opportunities, fostering a vibrant alumni ecosystem.
 
-![image](https://github.com/user-attachments/assets/cd05b675-6984-411b-b2d2-b991aa520847
+![image](https://github.com/user-attachments/assets/cd05b675-6984-411b-b2d2-b991aa520847)
 
 
 
